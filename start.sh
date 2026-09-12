@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-echo "Running database migrations..."
-node node_modules/prisma/build/index.js db push --skip-generate --accept-data-loss
-echo "Database ready. Starting server..."
+echo "Running database migration..."
+node migrate.js
+echo "Starting server..."
 exec node server.js
