@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Response {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Bagian 1 - Identitas Pengguna
+  email        String
+  namaPengguna String
+  jabatan      String?
+  noWhatsapp   String
+
+  // Bagian 2 - Identitas Lulusan
+  namaLulusan    String
+  jabatanLulusan String
+  programStudi   String?
+
+  // Bagian 3 - Informasi Perusahaan/Instansi
+  tingkatanPerusahaan String
+  bidangPerusahaan    String
+  kepuasanUmum        String
+  harapanPengguna     String
+
+  // Bagian 4 - Penilaian Kemampuan Alumni (Kurang/Cukup/Baik/Sangat baik)
+  integritas          String
+  keahlianBidang      String
+  kemampuanBahasa     String
+  penggunaanTeknologi String
+  komunikasi          String
+  kerjasamaTim        String
+  pengembanganDiri    String
+}
