@@ -110,11 +110,13 @@ export async function GET(request: NextRequest) {
   const kompetensiSum: Record<string, number> = {};
   const tingkatan: Record<string, number> = {};
   const bidang: Record<string, number> = {};
+  const harapan: Record<string, number> = {};
 
   for (const r of responses) {
     kepuasan[r.kepuasanUmum] = (kepuasan[r.kepuasanUmum] || 0) + 1;
     tingkatan[r.tingkatanPerusahaan] = (tingkatan[r.tingkatanPerusahaan] || 0) + 1;
     bidang[r.bidangPerusahaan] = (bidang[r.bidangPerusahaan] || 0) + 1;
+    harapan[r.harapanPengguna] = (harapan[r.harapanPengguna] || 0) + 1;
     for (const k of KOMPETENSI_KEYS) {
       const score = SKALA_NILAI[r[k]] || 0;
       kompetensiSum[k] = (kompetensiSum[k] || 0) + score;
@@ -373,6 +375,46 @@ export async function GET(request: NextRequest) {
   sections.push(
     new Table({
       rows: bidangRows,
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      layout: TableLayoutType.FIXED,
+    })
+  );
+
+  // Harapan Pengguna section
+  const harapanEntries = Object.entries(harapan).sort((a, b) => b[1] - a[1]);
+  sections.push(
+    new Paragraph({
+      text: "Harapan Pengguna",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 400, after: 100 },
+    })
+  );
+
+  const harapanRows = [
+    new TableRow({
+      children: [
+        headerCell("No", 8),
+        headerCell("Harapan Pengguna", 52),
+        headerCell("Jumlah", 20),
+        headerCell("Persentase", 20),
+      ],
+    }),
+    ...harapanEntries.map(([h, count], i) => {
+      const pct = total > 0 ? ((count / total) * 100).toFixed(1) : "0.0";
+      return new TableRow({
+        children: [
+          dataCell(String(i + 1), AlignmentType.CENTER),
+          dataCell(h),
+          dataCell(String(count), AlignmentType.CENTER),
+          dataCell(`${pct}%`, AlignmentType.CENTER),
+        ],
+      });
+    }),
+  ];
+
+  sections.push(
+    new Table({
+      rows: harapanRows,
       width: { size: 100, type: WidthType.PERCENTAGE },
       layout: TableLayoutType.FIXED,
     })

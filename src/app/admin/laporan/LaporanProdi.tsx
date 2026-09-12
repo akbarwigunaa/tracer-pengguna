@@ -272,6 +272,34 @@ function ProdiCard({ report }: { report: ProdiReport }) {
             </div>
           )}
 
+          {/* Harapan Pengguna */}
+          {Object.keys(report.harapan).length > 0 && (
+            <div>
+              <h4 className="font-semibold text-sm text-gray-700 mb-3">Harapan Pengguna</h4>
+              <div className="space-y-2">
+                {Object.entries(report.harapan)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([h, count]) => {
+                    const pct = report.total > 0 ? (count / report.total) * 100 : 0;
+                    return (
+                      <div key={h} className="flex items-center gap-3">
+                        <div className="w-64 text-sm text-gray-600 shrink-0" title={h}>{h}</div>
+                        <div className="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-amber-500/70 transition-all"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <div className="w-20 text-sm text-right text-gray-600">
+                          {count} ({pct.toFixed(0)}%)
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
+
           {/* Kompetensi */}
           <div>
             <h4 className="font-semibold text-sm text-gray-700 mb-3">
