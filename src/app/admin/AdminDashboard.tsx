@@ -95,6 +95,16 @@ export default function AdminDashboard({
               onChange={handleImport}
               className="hidden"
             />
+            <a
+              href="/api/template"
+              className="p-2 bg-white text-primary-dark rounded-lg hover:bg-blue-50 transition-colors"
+              title="Download Template Excel"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM6 20V4h7v5h5v11H6z" />
+                <path d="M12 18l4-4h-2.5v-3h-3v3H8l4 4z" />
+              </svg>
+            </a>
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={importing}
