@@ -63,7 +63,7 @@ export default function AdminDashboard({
           <div className="flex items-center gap-3">
             <a
               href="/api/export"
-              className="px-4 py-2 bg-white text-primary-dark rounded-lg text-sm font-medium hover:bg-green-50 transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-white text-primary-dark rounded-lg text-sm font-medium hover:bg-blue-50 transition-colors flex items-center gap-2"
             >
               <svg
                 className="w-4 h-4"

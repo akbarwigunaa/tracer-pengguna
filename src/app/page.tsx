@@ -1,19 +1,29 @@
 import Link from "next/link";
+import Image from "next/image";
 import TracerForm from "@/components/TracerForm";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Header */}
       <header className="bg-primary-dark text-white py-6 shadow-lg">
         <div className="max-w-2xl mx-auto px-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">
-              Kuesioner Tracer Pengguna Lulusan
-            </h1>
-            <p className="text-green-200 text-lg mt-1">
-              Universitas Muhammadiyah Sidoarjo
-            </p>
+          <div className="flex items-center gap-4">
+            <Image
+              src="/logo-umsida-putih.png"
+              alt="Logo UMSIDA"
+              width={60}
+              height={60}
+              className="h-14 w-auto"
+            />
+            <div>
+              <h1 className="text-2xl font-bold">
+                Kuesioner Tracer Pengguna Lulusan
+              </h1>
+              <p className="text-blue-200 text-lg mt-1">
+                Universitas Muhammadiyah Sidoarjo
+              </p>
+            </div>
           </div>
           <Link
             href="/admin/login"
@@ -59,7 +69,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-primary-dark text-white py-4 mt-auto">
-        <div className="max-w-2xl mx-auto px-4 text-center text-sm text-green-200">
+        <div className="max-w-2xl mx-auto px-4 text-center text-sm text-blue-200">
           &copy; {new Date().getFullYear()} Universitas Muhammadiyah Sidoarjo
         </div>
       </footer>

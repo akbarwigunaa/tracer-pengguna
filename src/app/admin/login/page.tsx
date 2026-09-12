@@ -2,10 +2,10 @@ import LoginForm from "./LoginForm";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-lg p-8 max-w-sm w-full">
         <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg
               className="w-8 h-8 text-primary"
               fill="none"

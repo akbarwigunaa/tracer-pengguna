@@ -48,7 +48,7 @@ export async function GET() {
   headerRow.fill = {
     type: "pattern",
     pattern: "solid",
-    fgColor: { argb: "FF166534" },
+    fgColor: { argb: "FF0f2340" },
   };
   headerRow.alignment = { vertical: "middle", horizontal: "center" };
 

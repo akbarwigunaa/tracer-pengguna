@@ -270,7 +270,7 @@ export default function TracerForm() {
                 {KOMPETENSI.map((k, i) => (
                   <tr
                     key={k.name}
-                    className={i % 2 === 0 ? "bg-white" : "bg-green-50"}
+                    className={i % 2 === 0 ? "bg-white" : "bg-blue-50"}
                   >
                     <td className="p-3 font-medium">{k.label}</td>
                     {SKALA.map((s) => (
