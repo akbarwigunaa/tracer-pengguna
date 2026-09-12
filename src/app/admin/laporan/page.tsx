@@ -27,6 +27,8 @@ export type ProdiReport = {
   programStudi: string;
   total: number;
   kepuasan: Record<string, number>;
+  tingkatan: Record<string, number>;
+  bidang: Record<string, number>;
   kompetensi: Record<string, number>;
 };
 
@@ -48,12 +50,16 @@ export default async function LaporanPage() {
         programStudi: r.programStudi,
         total: 0,
         kepuasan: {},
+        tingkatan: {},
+        bidang: {},
         kompetensi: {},
       });
     }
     const p = prodiMap.get(key)!;
     p.total++;
     p.kepuasan[r.kepuasanUmum] = (p.kepuasan[r.kepuasanUmum] || 0) + 1;
+    p.tingkatan[r.tingkatanPerusahaan] = (p.tingkatan[r.tingkatanPerusahaan] || 0) + 1;
+    p.bidang[r.bidangPerusahaan] = (p.bidang[r.bidangPerusahaan] || 0) + 1;
 
     for (const k of KOMPETENSI_KEYS) {
       const val = r[k];

@@ -11,6 +11,7 @@ type Response = {
   namaPengguna: string;
   jabatan: string | null;
   noWhatsapp: string;
+  namaPerusahaan: string;
   namaLulusan: string;
   jabatanLulusan: string;
   fakultas: string;

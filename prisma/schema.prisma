@@ -17,6 +17,8 @@ model Response {
   jabatan      String?
   noWhatsapp   String
 
+  namaPerusahaan String
+
   // Bagian 2 - Identitas Lulusan
   namaLulusan    String
   jabatanLulusan String

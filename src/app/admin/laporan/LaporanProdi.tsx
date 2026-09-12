@@ -226,6 +226,52 @@ function ProdiCard({ report }: { report: ProdiReport }) {
             </div>
           </div>
 
+          {/* Tingkatan Perusahaan */}
+          <div>
+            <h4 className="font-semibold text-sm text-gray-700 mb-3">Tingkatan Perusahaan/Instansi</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {["Lokal", "Nasional", "Multinasional/Internasional"].map((t) => {
+                const count = report.tingkatan[t] || 0;
+                const pct = report.total > 0 ? (count / report.total) * 100 : 0;
+                return (
+                  <div key={t} className="bg-gray-50 rounded-lg p-3 text-center">
+                    <div className="text-xl font-bold text-primary-dark">{count}</div>
+                    <div className="text-xs text-gray-500">{t}</div>
+                    <div className="text-xs text-gray-400">{pct.toFixed(0)}%</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Bidang Perusahaan */}
+          {Object.keys(report.bidang).length > 0 && (
+            <div>
+              <h4 className="font-semibold text-sm text-gray-700 mb-3">Bidang Perusahaan/Instansi</h4>
+              <div className="space-y-2">
+                {Object.entries(report.bidang)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([b, count]) => {
+                    const pct = report.total > 0 ? (count / report.total) * 100 : 0;
+                    return (
+                      <div key={b} className="flex items-center gap-3">
+                        <div className="w-40 text-sm text-gray-600 shrink-0 truncate" title={b}>{b}</div>
+                        <div className="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-primary/70 transition-all"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <div className="w-20 text-sm text-right text-gray-600">
+                          {count} ({pct.toFixed(0)}%)
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
+
           {/* Kompetensi */}
           <div>
             <h4 className="font-semibold text-sm text-gray-700 mb-3">

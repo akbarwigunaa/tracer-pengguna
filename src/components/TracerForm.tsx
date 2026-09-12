@@ -105,6 +105,7 @@ export default function TracerForm() {
       if (!formValues.email) missing.push("Email");
       if (!formValues.namaPengguna) missing.push("Nama Pengguna");
       if (!formValues.noWhatsapp) missing.push("No WhatsApp");
+      if (!formValues.namaPerusahaan) missing.push("Nama Perusahaan/Institusi");
     } else if (step === 2) {
       if (!formValues.namaLulusan) missing.push("Nama Lulusan");
       if (!formValues.jabatanLulusan) missing.push("Jabatan");
@@ -223,6 +224,13 @@ export default function TracerForm() {
             name="noWhatsapp"
             required
             value={formValues.noWhatsapp || ""}
+            onChange={updateField}
+          />
+          <TextField
+            label="Nama Perusahaan/Institusi"
+            name="namaPerusahaan"
+            required
+            value={formValues.namaPerusahaan || ""}
             onChange={updateField}
           />
         </div>
