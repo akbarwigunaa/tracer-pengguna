@@ -66,7 +66,8 @@ export async function submitResponse(
     await prisma.response.create({ data });
 
     return { success: true };
-  } catch {
+  } catch (e) {
+    console.error("submitResponse error:", e);
     return { success: false, error: "Terjadi kesalahan. Silakan coba lagi." };
   }
 }
