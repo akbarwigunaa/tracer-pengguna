@@ -52,6 +52,8 @@ const SKALA_NILAI: Record<string, number> = {
   Kurang: 1,
 };
 
+const SKALA_ORDER = ["Sangat baik", "Baik", "Cukup", "Kurang"] as const;
+
 const BORDER = {
   top: { style: BorderStyle.SINGLE, size: 1, color: "999999" },
   bottom: { style: BorderStyle.SINGLE, size: 1, color: "999999" },
@@ -108,6 +110,7 @@ export async function GET(request: NextRequest) {
 
   const kepuasan: Record<string, number> = {};
   const kompetensiSum: Record<string, number> = {};
+  const kompetensiDist: Record<string, Record<string, number>> = {};
   const tingkatan: Record<string, number> = {};
   const bidang: Record<string, number> = {};
   for (const r of responses) {
@@ -115,8 +118,11 @@ export async function GET(request: NextRequest) {
     tingkatan[r.tingkatanPerusahaan] = (tingkatan[r.tingkatanPerusahaan] || 0) + 1;
     bidang[r.bidangPerusahaan] = (bidang[r.bidangPerusahaan] || 0) + 1;
     for (const k of KOMPETENSI_KEYS) {
-      const score = SKALA_NILAI[r[k]] || 0;
+      const val = r[k];
+      const score = SKALA_NILAI[val] || 0;
       kompetensiSum[k] = (kompetensiSum[k] || 0) + score;
+      if (!kompetensiDist[k]) kompetensiDist[k] = {};
+      kompetensiDist[k][val] = (kompetensiDist[k][val] || 0) + 1;
     }
   }
 
@@ -401,31 +407,37 @@ export async function GET(request: NextRequest) {
   const kompetensiRows = [
     new TableRow({
       children: [
-        headerCell("No", 8),
-        headerCell("Kompetensi", 52),
-        headerCell("Rata-rata", 20),
-        headerCell("Kategori", 20),
+        headerCell("No", 5),
+        headerCell("Kompetensi", 25),
+        headerCell("Rata-rata", 10),
+        ...SKALA_ORDER.map((s) => headerCell(s, 15)),
       ],
     }),
     ...KOMPETENSI_KEYS.map((k, i) => {
       const avg = kompetensiAvg[k] || 0;
-      let kategori = "Kurang";
-      if (avg >= 3.5) kategori = "Sangat Baik";
-      else if (avg >= 2.5) kategori = "Baik";
-      else if (avg >= 1.5) kategori = "Cukup";
+      const dist = kompetensiDist[k] || {};
       return new TableRow({
         children: [
           dataCell(String(i + 1), AlignmentType.CENTER),
           dataCell(KOMPETENSI_LABELS[k]),
           dataCell(avg.toFixed(2), AlignmentType.CENTER),
-          dataCell(kategori, AlignmentType.CENTER),
+          ...SKALA_ORDER.map((s) => {
+            const count = dist[s] || 0;
+            const pct = total > 0 ? ((count / total) * 100).toFixed(0) : "0";
+            return dataCell(`${count} (${pct}%)`, AlignmentType.CENTER);
+          }),
         ],
       });
     }),
     new TableRow({
       children: [
         new TableCell({
-          children: [new Paragraph({ children: [] })],
+          children: [
+            new Paragraph({
+              children: [new TextRun({ text: "Rata-rata Keseluruhan", bold: true, size: 20, font: "Calibri" })],
+              alignment: AlignmentType.RIGHT,
+            }),
+          ],
           borders: BORDER,
           shading: { type: ShadingType.SOLID, color: "F0F0F0" },
           columnSpan: 2,
@@ -456,54 +468,11 @@ export async function GET(request: NextRequest) {
           ],
           borders: BORDER,
           shading: { type: ShadingType.SOLID, color: "F0F0F0" },
+          columnSpan: 3,
         }),
       ],
     }),
   ];
-
-  // Fix the colspan row - add "Rata-rata Keseluruhan" text
-  kompetensiRows[kompetensiRows.length - 1] = new TableRow({
-    children: [
-      new TableCell({
-        children: [
-          new Paragraph({
-            children: [new TextRun({ text: "Rata-rata Keseluruhan", bold: true, size: 20, font: "Calibri" })],
-            alignment: AlignmentType.RIGHT,
-          }),
-        ],
-        borders: BORDER,
-        shading: { type: ShadingType.SOLID, color: "F0F0F0" },
-        columnSpan: 2,
-      }),
-      new TableCell({
-        children: [
-          new Paragraph({
-            children: [new TextRun({ text: avgAll.toFixed(2), bold: true, size: 20, font: "Calibri" })],
-            alignment: AlignmentType.CENTER,
-          }),
-        ],
-        borders: BORDER,
-        shading: { type: ShadingType.SOLID, color: "F0F0F0" },
-      }),
-      new TableCell({
-        children: [
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: avgAll >= 3.5 ? "Sangat Baik" : avgAll >= 2.5 ? "Baik" : avgAll >= 1.5 ? "Cukup" : "Kurang",
-                bold: true,
-                size: 20,
-                font: "Calibri",
-              }),
-            ],
-            alignment: AlignmentType.CENTER,
-          }),
-        ],
-        borders: BORDER,
-        shading: { type: ShadingType.SOLID, color: "F0F0F0" },
-      }),
-    ],
-  });
 
   sections.push(
     new Table({

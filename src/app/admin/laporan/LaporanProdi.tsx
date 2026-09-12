@@ -23,6 +23,8 @@ const KEPUASAN_ORDER = [
   "Sangat Tidak Puas",
 ];
 
+const SKALA_ORDER = ["Sangat baik", "Baik", "Cukup", "Kurang"] as const;
+
 const KEPUASAN_COLORS: Record<string, string> = {
   "Sangat Puas": "bg-green-500",
   Puas: "bg-blue-500",
@@ -289,26 +291,32 @@ function UniversityCard({ report, prodiCount }: { report: ProdiReport; prodiCoun
                   <tr className="bg-primary-dark text-white">
                     <th className="p-3 text-left rounded-tl-lg">Kompetensi</th>
                     <th className="p-3 text-center">Rata-rata</th>
-                    <th className="p-3 text-left rounded-tr-lg">Visualisasi</th>
+                    {SKALA_ORDER.map((s, si) => (
+                      <th key={s} className={`p-3 text-center${si === SKALA_ORDER.length - 1 ? " rounded-tr-lg" : ""}`}>{s}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {kompetensiEntries.map(([key, avg], i) => (
-                    <tr key={key} className={i % 2 === 0 ? "bg-white" : "bg-blue-50"}>
-                      <td className="p-3 font-medium">{KOMPETENSI_LABELS[key] || key}</td>
-                      <td className="p-3 text-center">
-                        <span className={`font-bold ${getScoreColor(avg)}`}>{avg.toFixed(2)}</span>
-                      </td>
-                      <td className="p-3">
-                        <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden max-w-48">
-                          <div
-                            className={`h-full rounded-full ${getBarColor(avg)} transition-all`}
-                            style={{ width: `${(avg / 4) * 100}%` }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                  {kompetensiEntries.map(([key, avg], i) => {
+                    const dist = report.kompetensiDist?.[key] || {};
+                    return (
+                      <tr key={key} className={i % 2 === 0 ? "bg-white" : "bg-blue-50"}>
+                        <td className="p-3 font-medium">{KOMPETENSI_LABELS[key] || key}</td>
+                        <td className="p-3 text-center">
+                          <span className={`font-bold ${getScoreColor(avg)}`}>{avg.toFixed(2)}</span>
+                        </td>
+                        {SKALA_ORDER.map((s) => {
+                          const count = dist[s] || 0;
+                          const pct = report.total > 0 ? ((count / report.total) * 100).toFixed(0) : "0";
+                          return (
+                            <td key={s} className="p-3 text-center text-gray-600">
+                              {count} <span className="text-gray-400 text-xs">({pct}%)</span>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
                 </tbody>
                 <tfoot>
                   <tr className="bg-gray-100 font-bold">
@@ -316,7 +324,7 @@ function UniversityCard({ report, prodiCount }: { report: ProdiReport; prodiCoun
                     <td className="p-3 text-center">
                       <span className={getScoreColor(avgAll)}>{avgAll.toFixed(2)}</span>
                     </td>
-                    <td className="p-3">
+                    <td colSpan={4} className="p-3">
                       <div className="flex-1 bg-gray-200 rounded-full h-4 overflow-hidden max-w-48">
                         <div
                           className={`h-full rounded-full ${getBarColor(avgAll)} transition-all`}
@@ -474,28 +482,32 @@ function ProdiCard({ report }: { report: ProdiReport }) {
                   <tr className="bg-primary-dark text-white">
                     <th className="p-3 text-left rounded-tl-lg">Kompetensi</th>
                     <th className="p-3 text-center">Rata-rata</th>
-                    <th className="p-3 text-left rounded-tr-lg">Visualisasi</th>
+                    {SKALA_ORDER.map((s, si) => (
+                      <th key={s} className={`p-3 text-center${si === SKALA_ORDER.length - 1 ? " rounded-tr-lg" : ""}`}>{s}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {kompetensiEntries.map(([key, avg], i) => (
-                    <tr key={key} className={i % 2 === 0 ? "bg-white" : "bg-blue-50"}>
-                      <td className="p-3 font-medium">{KOMPETENSI_LABELS[key] || key}</td>
-                      <td className="p-3 text-center">
-                        <span className={`font-bold ${getScoreColor(avg)}`}>{avg.toFixed(2)}</span>
-                      </td>
-                      <td className="p-3">
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden max-w-48">
-                            <div
-                              className={`h-full rounded-full ${getBarColor(avg)} transition-all`}
-                              style={{ width: `${(avg / 4) * 100}%` }}
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                  {kompetensiEntries.map(([key, avg], i) => {
+                    const dist = report.kompetensiDist?.[key] || {};
+                    return (
+                      <tr key={key} className={i % 2 === 0 ? "bg-white" : "bg-blue-50"}>
+                        <td className="p-3 font-medium">{KOMPETENSI_LABELS[key] || key}</td>
+                        <td className="p-3 text-center">
+                          <span className={`font-bold ${getScoreColor(avg)}`}>{avg.toFixed(2)}</span>
+                        </td>
+                        {SKALA_ORDER.map((s) => {
+                          const count = dist[s] || 0;
+                          const pct = report.total > 0 ? ((count / report.total) * 100).toFixed(0) : "0";
+                          return (
+                            <td key={s} className="p-3 text-center text-gray-600">
+                              {count} <span className="text-gray-400 text-xs">({pct}%)</span>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
                 </tbody>
                 <tfoot>
                   <tr className="bg-gray-100 font-bold">
@@ -503,14 +515,12 @@ function ProdiCard({ report }: { report: ProdiReport }) {
                     <td className="p-3 text-center">
                       <span className={getScoreColor(avgAll)}>{avgAll.toFixed(2)}</span>
                     </td>
-                    <td className="p-3">
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 bg-gray-200 rounded-full h-4 overflow-hidden max-w-48">
-                          <div
-                            className={`h-full rounded-full ${getBarColor(avgAll)} transition-all`}
-                            style={{ width: `${(avgAll / 4) * 100}%` }}
-                          />
-                        </div>
+                    <td colSpan={4} className="p-3">
+                      <div className="flex-1 bg-gray-200 rounded-full h-4 overflow-hidden max-w-48">
+                        <div
+                          className={`h-full rounded-full ${getBarColor(avgAll)} transition-all`}
+                          style={{ width: `${(avgAll / 4) * 100}%` }}
+                        />
                       </div>
                     </td>
                   </tr>

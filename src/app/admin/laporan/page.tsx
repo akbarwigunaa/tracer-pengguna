@@ -31,6 +31,7 @@ export type ProdiReport = {
   bidang: Record<string, number>;
   harapan: { nama: string; teks: string }[];
   kompetensi: Record<string, number>;
+  kompetensiDist: Record<string, Record<string, number>>;
 };
 
 export default async function LaporanPage() {
@@ -55,6 +56,7 @@ export default async function LaporanPage() {
         bidang: {},
         harapan: [],
         kompetensi: {},
+        kompetensiDist: {},
       });
     }
     const p = prodiMap.get(key)!;
@@ -68,6 +70,8 @@ export default async function LaporanPage() {
       const val = r[k];
       const score = SKALA_NILAI[val] || 0;
       p.kompetensi[k] = (p.kompetensi[k] || 0) + score;
+      if (!p.kompetensiDist[k]) p.kompetensiDist[k] = {};
+      p.kompetensiDist[k][val] = (p.kompetensiDist[k][val] || 0) + 1;
     }
   }
 
@@ -77,7 +81,7 @@ export default async function LaporanPage() {
       for (const k of KOMPETENSI_KEYS) {
         avg[k] = p.total > 0 ? Number(((p.kompetensi[k] || 0) / p.total).toFixed(2)) : 0;
       }
-      return { ...p, kompetensi: avg };
+      return { ...p, kompetensi: avg, kompetensiDist: p.kompetensiDist };
     })
     .sort((a, b) => a.fakultas.localeCompare(b.fakultas) || a.programStudi.localeCompare(b.programStudi));
 
@@ -86,6 +90,7 @@ export default async function LaporanPage() {
   const uniTingkatan: Record<string, number> = {};
   const uniBidang: Record<string, number> = {};
   const uniKompetensiSum: Record<string, number> = {};
+  const uniKompetensiDist: Record<string, Record<string, number>> = {};
   const uniHarapan: { nama: string; teks: string }[] = [];
 
   for (const r of responses) {
@@ -94,8 +99,11 @@ export default async function LaporanPage() {
     uniBidang[r.bidangPerusahaan] = (uniBidang[r.bidangPerusahaan] || 0) + 1;
     uniHarapan.push({ nama: r.namaPengguna, teks: r.harapanPengguna });
     for (const k of KOMPETENSI_KEYS) {
-      const score = SKALA_NILAI[r[k]] || 0;
+      const val = r[k];
+      const score = SKALA_NILAI[val] || 0;
       uniKompetensiSum[k] = (uniKompetensiSum[k] || 0) + score;
+      if (!uniKompetensiDist[k]) uniKompetensiDist[k] = {};
+      uniKompetensiDist[k][val] = (uniKompetensiDist[k][val] || 0) + 1;
     }
   }
 
@@ -115,6 +123,7 @@ export default async function LaporanPage() {
     bidang: uniBidang,
     harapan: uniHarapan,
     kompetensi: uniKompetensi,
+    kompetensiDist: uniKompetensiDist,
   };
 
   return <LaporanProdi reports={reports} totalResponses={responses.length} universityReport={universityReport} />;
