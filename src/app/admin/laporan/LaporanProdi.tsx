@@ -31,6 +31,32 @@ const KEPUASAN_COLORS: Record<string, string> = {
   "Sangat Tidak Puas": "bg-red-500",
 };
 
+function IconDashboard() {
+  return (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+    </svg>
+  );
+}
+
+function IconExcel() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM6 20V4h7v5h5v11H6z" />
+      <path d="M8 12.5l2.5 3.5H9l-1.5-2.1L6 16H4.5l2.5-3.5L4.7 9H6.2l1.3 1.9L8.8 9h1.5L8 12.5z" />
+    </svg>
+  );
+}
+
+function IconWord() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM6 20V4h7v5h5v11H6z" />
+      <path d="M7 13h1.5l1 3.5 1-3.5H12l1 3.5 1-3.5H15.5l-2 6h-1.5l-1-3.5-1 3.5H9.5l-2.5-6z" />
+    </svg>
+  );
+}
+
 export default function LaporanProdi({
   reports,
   totalResponses,
@@ -57,34 +83,21 @@ export default function LaporanProdi({
     <div className="min-h-screen bg-gray-50">
       <header className="bg-primary-dark text-white py-4 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold">
-            Laporan Per Prodi
-          </h1>
+          <h1 className="text-xl font-bold">Laporan Per Prodi</h1>
           <div className="flex items-center gap-3">
             <a
               href="/admin"
-              className="px-4 py-2 bg-white text-primary-dark rounded-lg text-sm font-medium hover:bg-blue-50 transition-colors"
+              className="px-4 py-2 bg-white text-primary-dark rounded-lg text-sm font-medium hover:bg-blue-50 transition-colors flex items-center gap-2"
             >
+              <IconDashboard />
               Dashboard
             </a>
             <a
               href="/api/export-laporan"
               className="px-4 py-2 bg-white text-primary-dark rounded-lg text-sm font-medium hover:bg-blue-50 transition-colors flex items-center gap-2"
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              Export Laporan
+              <IconExcel />
+              Export Excel
             </a>
             <button
               onClick={handleLogout}
@@ -100,8 +113,8 @@ export default function LaporanProdi({
         {/* Summary & Filter */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="text-sm text-gray-600">
-            Total <span className="font-bold text-primary-dark">{totalResponses}</span> respons
-            dari <span className="font-bold text-primary-dark">{reports.length}</span> program studi
+            Total <span className="font-bold text-primary-dark">{totalResponses}</span> respons dari{" "}
+            <span className="font-bold text-primary-dark">{reports.length}</span> program studi
           </div>
           <select
             value={selectedFakultas}
@@ -110,7 +123,9 @@ export default function LaporanProdi({
           >
             <option value="all">Semua Fakultas</option>
             {fakultasList.map((f) => (
-              <option key={f} value={f}>{f}</option>
+              <option key={f} value={f}>
+                {f}
+              </option>
             ))}
           </select>
         </div>
@@ -137,6 +152,8 @@ function ProdiCard({ report }: { report: ProdiReport }) {
     kompetensiEntries.length > 0
       ? kompetensiEntries.reduce((sum, [, v]) => sum + v, 0) / kompetensiEntries.length
       : 0;
+
+  const wordUrl = `/api/export-word?fakultas=${encodeURIComponent(report.fakultas)}&prodi=${encodeURIComponent(report.programStudi)}`;
 
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -172,8 +189,20 @@ function ProdiCard({ report }: { report: ProdiReport }) {
       {/* Expanded details */}
       {expanded && (
         <div className="border-t px-5 pb-5 space-y-5">
+          {/* Download Word button */}
+          <div className="pt-4 flex justify-end">
+            <a
+              href={wordUrl}
+              onClick={(e) => e.stopPropagation()}
+              className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors flex items-center gap-2"
+            >
+              <IconWord />
+              Download Laporan Word
+            </a>
+          </div>
+
           {/* Kepuasan */}
-          <div className="pt-4">
+          <div>
             <h4 className="font-semibold text-sm text-gray-700 mb-3">Kepuasan Pengguna</h4>
             <div className="space-y-2">
               {KEPUASAN_ORDER.map((k) => {
