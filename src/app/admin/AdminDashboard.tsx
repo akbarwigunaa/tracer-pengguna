@@ -13,7 +13,8 @@ type Response = {
   noWhatsapp: string;
   namaLulusan: string;
   jabatanLulusan: string;
-  programStudi: string | null;
+  fakultas: string;
+  programStudi: string;
   tingkatanPerusahaan: string;
   bidangPerusahaan: string;
   kepuasanUmum: string;
@@ -158,6 +159,7 @@ export default function AdminDashboard({
                   <th className="p-3">Tanggal</th>
                   <th className="p-3">Pengguna</th>
                   <th className="p-3">Lulusan</th>
+                  <th className="p-3">Fakultas</th>
                   <th className="p-3">Prodi</th>
                   <th className="p-3">Tingkatan</th>
                   <th className="p-3">Kepuasan</th>
@@ -181,7 +183,8 @@ export default function AdminDashboard({
                         {r.jabatanLulusan}
                       </div>
                     </td>
-                    <td className="p-3">{r.programStudi || "-"}</td>
+                    <td className="p-3">{r.fakultas}</td>
+                    <td className="p-3">{r.programStudi}</td>
                     <td className="p-3">{r.tingkatanPerusahaan}</td>
                     <td className="p-3">
                       <KepuasanBadge value={r.kepuasanUmum} />
@@ -193,7 +196,7 @@ export default function AdminDashboard({
                 ))}
                 {filtered.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-gray-400">
+                    <td colSpan={9} className="p-8 text-center text-gray-400">
                       {search
                         ? "Tidak ada data yang cocok"
                         : "Belum ada respons"}

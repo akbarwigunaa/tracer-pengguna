@@ -16,6 +16,58 @@ const KOMPETENSI = [
 
 const SKALA = ["Sangat baik", "Baik", "Cukup", "Kurang"];
 
+const FAKULTAS_PRODI: Record<string, string[]> = {
+  "FPSI (Fakultas Pendidikan dan Studi Islam)": [
+    "Pendidikan Agama Islam",
+    "Pendidikan Bahasa Arab",
+    "Pendidikan Guru PAUD",
+    "Pendidikan Guru SD",
+    "Pendidikan IPA",
+    "Pendidikan Bahasa Inggris",
+    "Pendidikan Profesi Guru",
+  ],
+  "FBHIS (Fakultas Bisnis Hukum dan Ilmu Sosial)": [
+    "S1 Akuntansi",
+    "S1 Administrasi Publik",
+    "S1 Ilmu Komunikasi",
+    "S1 Hukum",
+    "S1 Manajemen",
+    "S1 Bisnis Digital",
+    "S1 Perbankan Syariah",
+  ],
+  "FKKG (Fakultas Kedokteran dan Kedokteran Gigi)": [
+    "S1 Kedokteran",
+    "S1 Kedokteran Gigi",
+    "Profesi Kedokteran Gigi",
+    "Profesi Dokter",
+  ],
+  "FST (Fakultas Sains dan Teknologi)": [
+    "S1 Teknik Mesin",
+    "S1 Teknik Elektro",
+    "S1 Teknik Industri",
+    "S1 Teknik Sipil",
+    "S1 Informatika",
+    "S1 Agroteknologi",
+    "S1 Teknologi Pangan",
+    "S1 Sains Data",
+  ],
+  "FIKP (Fakultas Ilmu Kesehatan dan Psikologi)": [
+    "S1 Kebidanan",
+    "S1 Fisioterapi",
+    "D4 Teknologi Laboratorium Medis",
+    "D4 Manajemen Informasi Kesehatan",
+    "S1 Psikologi",
+    "Profesi Bidan",
+  ],
+  "Pascasarjana": [
+    "S2 Manajemen Pendidikan Islam",
+    "S2 Pendidikan Dasar",
+    "S2 Manajemen",
+    "S2 Ilmu Komunikasi",
+    "S2 MIST",
+  ],
+};
+
 const TINGKATAN = ["Lokal", "Nasional", "Multinasional/Internasional"];
 
 const KEPUASAN = [
@@ -56,6 +108,8 @@ export default function TracerForm() {
     } else if (step === 2) {
       if (!formValues.namaLulusan) missing.push("Nama Lulusan");
       if (!formValues.jabatanLulusan) missing.push("Jabatan");
+      if (!formValues.fakultas) missing.push("Fakultas");
+      if (!formValues.programStudi) missing.push("Program Studi");
     } else if (step === 3) {
       if (!formValues.tingkatanPerusahaan)
         missing.push("Tingkatan Perusahaan/Instansi");
@@ -195,12 +249,41 @@ export default function TracerForm() {
             value={formValues.jabatanLulusan || ""}
             onChange={updateField}
           />
-          <TextField
-            label="Program Studi"
-            name="programStudi"
-            value={formValues.programStudi || ""}
-            onChange={updateField}
-          />
+          <div className="bg-white rounded-lg p-5 shadow-sm">
+            <label className="block font-medium mb-2">
+              Fakultas <span className="text-red-500 ml-1">*</span>
+            </label>
+            <select
+              value={formValues.fakultas || ""}
+              onChange={(e) => {
+                updateField("fakultas", e.target.value);
+                updateField("programStudi", "");
+              }}
+              className="w-full border-b-2 border-gray-200 focus:border-primary py-2 outline-none transition-colors bg-transparent"
+            >
+              <option value="">Pilih fakultas</option>
+              {Object.keys(FAKULTAS_PRODI).map((f) => (
+                <option key={f} value={f}>{f}</option>
+              ))}
+            </select>
+          </div>
+          <div className="bg-white rounded-lg p-5 shadow-sm">
+            <label className="block font-medium mb-2">
+              Program Studi <span className="text-red-500 ml-1">*</span>
+            </label>
+            <select
+              value={formValues.programStudi || ""}
+              onChange={(e) => updateField("programStudi", e.target.value)}
+              disabled={!formValues.fakultas}
+              className="w-full border-b-2 border-gray-200 focus:border-primary py-2 outline-none transition-colors bg-transparent disabled:opacity-50"
+            >
+              <option value="">Pilih program studi</option>
+              {formValues.fakultas &&
+                FAKULTAS_PRODI[formValues.fakultas]?.map((p) => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+            </select>
+          </div>
         </div>
       )}
 

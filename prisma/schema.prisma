@@ -20,7 +20,8 @@ model Response {
   // Bagian 2 - Identitas Lulusan
   namaLulusan    String
   jabatanLulusan String
-  programStudi   String?
+  fakultas       String
+  programStudi   String
 
   // Bagian 3 - Informasi Perusahaan/Instansi
   tingkatanPerusahaan String
