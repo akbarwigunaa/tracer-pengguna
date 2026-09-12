@@ -108,9 +108,13 @@ export async function GET(request: NextRequest) {
 
   const kepuasan: Record<string, number> = {};
   const kompetensiSum: Record<string, number> = {};
+  const tingkatan: Record<string, number> = {};
+  const bidang: Record<string, number> = {};
 
   for (const r of responses) {
     kepuasan[r.kepuasanUmum] = (kepuasan[r.kepuasanUmum] || 0) + 1;
+    tingkatan[r.tingkatanPerusahaan] = (tingkatan[r.tingkatanPerusahaan] || 0) + 1;
+    bidang[r.bidangPerusahaan] = (bidang[r.bidangPerusahaan] || 0) + 1;
     for (const k of KOMPETENSI_KEYS) {
       const score = SKALA_NILAI[r[k]] || 0;
       kompetensiSum[k] = (kompetensiSum[k] || 0) + score;
@@ -277,6 +281,98 @@ export async function GET(request: NextRequest) {
   sections.push(
     new Table({
       rows: kepuasanRows,
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      layout: TableLayoutType.FIXED,
+    })
+  );
+
+  // Tingkatan Perusahaan section
+  const TINGKATAN_ORDER = ["Lokal", "Nasional", "Multinasional/Internasional"];
+  sections.push(
+    new Paragraph({
+      text: "Tingkatan Perusahaan/Instansi",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 400, after: 100 },
+    })
+  );
+
+  const tingkatanRows = [
+    new TableRow({
+      children: [
+        headerCell("Tingkatan", 40),
+        headerCell("Jumlah", 20),
+        headerCell("Persentase", 20),
+      ],
+    }),
+    ...TINGKATAN_ORDER.map((t) => {
+      const count = tingkatan[t] || 0;
+      const pct = total > 0 ? ((count / total) * 100).toFixed(1) : "0.0";
+      return new TableRow({
+        children: [
+          dataCell(t),
+          dataCell(String(count), AlignmentType.CENTER),
+          dataCell(`${pct}%`, AlignmentType.CENTER),
+        ],
+      });
+    }),
+    // Include any tingkatan not in the standard order
+    ...Object.entries(tingkatan)
+      .filter(([t]) => !TINGKATAN_ORDER.includes(t))
+      .map(([t, count]) => {
+        const pct = total > 0 ? ((count / total) * 100).toFixed(1) : "0.0";
+        return new TableRow({
+          children: [
+            dataCell(t),
+            dataCell(String(count), AlignmentType.CENTER),
+            dataCell(`${pct}%`, AlignmentType.CENTER),
+          ],
+        });
+      }),
+  ];
+
+  sections.push(
+    new Table({
+      rows: tingkatanRows,
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      layout: TableLayoutType.FIXED,
+    })
+  );
+
+  // Bidang Perusahaan section
+  sections.push(
+    new Paragraph({
+      text: "Bidang Perusahaan/Instansi",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 400, after: 100 },
+    })
+  );
+
+  const bidangEntries = Object.entries(bidang).sort((a, b) => b[1] - a[1]);
+  const bidangRows = [
+    new TableRow({
+      children: [
+        headerCell("No", 8),
+        headerCell("Bidang Perusahaan/Instansi", 52),
+        headerCell("Jumlah", 20),
+        headerCell("Persentase", 20),
+      ],
+    }),
+    ...bidangEntries.map(([b, count], i) => {
+      const pct = total > 0 ? ((count / total) * 100).toFixed(1) : "0.0";
+      return new TableRow({
+        children: [
+          dataCell(String(i + 1), AlignmentType.CENTER),
+          dataCell(b),
+          dataCell(String(count), AlignmentType.CENTER),
+          dataCell(`${pct}%`, AlignmentType.CENTER),
+        ],
+      });
+    }),
+  ];
+
+  sections.push(
+    new Table({
+      rows: bidangRows,
       width: { size: 100, type: WidthType.PERCENTAGE },
       layout: TableLayoutType.FIXED,
     })
