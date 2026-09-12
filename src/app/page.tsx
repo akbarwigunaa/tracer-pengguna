@@ -1,3 +1,4 @@
+import Link from "next/link";
 import TracerForm from "@/components/TracerForm";
 
 export default function Home() {
@@ -5,13 +6,34 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
       {/* Header */}
       <header className="bg-primary-dark text-white py-6 shadow-lg">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <h1 className="text-2xl font-bold">
-            Kuesioner Tracer Pengguna Lulusan
-          </h1>
-          <p className="text-green-200 text-lg mt-1">
-            Universitas Muhammadiyah Sidoarjo
-          </p>
+        <div className="max-w-2xl mx-auto px-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">
+              Kuesioner Tracer Pengguna Lulusan
+            </h1>
+            <p className="text-green-200 text-lg mt-1">
+              Universitas Muhammadiyah Sidoarjo
+            </p>
+          </div>
+          <Link
+            href="/admin/login"
+            className="px-4 py-2 border border-white/30 rounded-lg text-sm hover:bg-white/10 transition-colors flex items-center gap-2"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+            Admin
+          </Link>
         </div>
       </header>
 

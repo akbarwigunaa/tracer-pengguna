@@ -14,7 +14,7 @@ const KOMPETENSI = [
   { name: "pengembanganDiri", label: "Pengembangan Diri" },
 ];
 
-const SKALA = ["Kurang", "Cukup", "Baik", "Sangat baik"];
+const SKALA = ["Sangat baik", "Baik", "Cukup", "Kurang"];
 
 const TINGKATAN = ["Lokal", "Nasional", "Multinasional/Internasional"];
 

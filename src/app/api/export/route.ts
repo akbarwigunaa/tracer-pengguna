@@ -1,73 +1,102 @@
 import { prisma } from "@/lib/prisma";
+import { isAuthenticated } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import ExcelJS from "exceljs";
 
 export async function GET() {
+  const authed = await isAuthenticated();
+  if (!authed) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const responses = await prisma.response.findMany({
     orderBy: { createdAt: "desc" },
   });
 
-  const headers = [
-    "No",
-    "Tanggal",
-    "Email",
-    "Nama Pengguna",
-    "Jabatan Pengguna",
-    "No WhatsApp",
-    "Nama Lulusan",
-    "Jabatan Lulusan",
-    "Program Studi",
-    "Tingkatan Perusahaan",
-    "Bidang Perusahaan",
-    "Kepuasan Umum",
-    "Harapan Pengguna",
-    "Integritas",
-    "Keahlian Bidang",
-    "Kemampuan Bahasa",
-    "Penggunaan Teknologi",
-    "Komunikasi",
-    "Kerjasama Tim",
-    "Pengembangan Diri",
+  const workbook = new ExcelJS.Workbook();
+  workbook.creator = "Tracer Pengguna UMSIDA";
+  workbook.created = new Date();
+
+  const sheet = workbook.addWorksheet("Data Respons");
+
+  sheet.columns = [
+    { header: "No", key: "no", width: 5 },
+    { header: "Tanggal", key: "tanggal", width: 15 },
+    { header: "Email", key: "email", width: 25 },
+    { header: "Nama Pengguna", key: "namaPengguna", width: 20 },
+    { header: "Jabatan Pengguna", key: "jabatan", width: 20 },
+    { header: "No WhatsApp", key: "noWhatsapp", width: 15 },
+    { header: "Nama Lulusan", key: "namaLulusan", width: 20 },
+    { header: "Jabatan Lulusan", key: "jabatanLulusan", width: 20 },
+    { header: "Program Studi", key: "programStudi", width: 20 },
+    { header: "Tingkatan Perusahaan", key: "tingkatanPerusahaan", width: 22 },
+    { header: "Bidang Perusahaan", key: "bidangPerusahaan", width: 20 },
+    { header: "Kepuasan Umum", key: "kepuasanUmum", width: 18 },
+    { header: "Harapan Pengguna", key: "harapanPengguna", width: 35 },
+    { header: "Integritas", key: "integritas", width: 14 },
+    { header: "Keahlian Bidang", key: "keahlianBidang", width: 14 },
+    { header: "Kemampuan Bahasa", key: "kemampuanBahasa", width: 14 },
+    { header: "Penggunaan Teknologi", key: "penggunaanTeknologi", width: 18 },
+    { header: "Komunikasi", key: "komunikasi", width: 14 },
+    { header: "Kerjasama Tim", key: "kerjasamaTim", width: 14 },
+    { header: "Pengembangan Diri", key: "pengembanganDiri", width: 16 },
   ];
 
-  function esc(val: string | null) {
-    if (!val) return "";
-    if (val.includes(",") || val.includes('"') || val.includes("\n")) {
-      return `"${val.replace(/"/g, '""')}"`;
-    }
-    return val;
-  }
+  // Style header row
+  const headerRow = sheet.getRow(1);
+  headerRow.font = { bold: true, color: { argb: "FFFFFFFF" } };
+  headerRow.fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: "FF166534" },
+  };
+  headerRow.alignment = { vertical: "middle", horizontal: "center" };
 
-  const rows = responses.map((r, i) =>
-    [
-      i + 1,
-      new Date(r.createdAt).toLocaleDateString("id-ID"),
-      esc(r.email),
-      esc(r.namaPengguna),
-      esc(r.jabatan),
-      esc(r.noWhatsapp),
-      esc(r.namaLulusan),
-      esc(r.jabatanLulusan),
-      esc(r.programStudi),
-      esc(r.tingkatanPerusahaan),
-      esc(r.bidangPerusahaan),
-      esc(r.kepuasanUmum),
-      esc(r.harapanPengguna),
-      esc(r.integritas),
-      esc(r.keahlianBidang),
-      esc(r.kemampuanBahasa),
-      esc(r.penggunaanTeknologi),
-      esc(r.komunikasi),
-      esc(r.kerjasamaTim),
-      esc(r.pengembanganDiri),
-    ].join(",")
-  );
+  responses.forEach((r, i) => {
+    sheet.addRow({
+      no: i + 1,
+      tanggal: new Date(r.createdAt).toLocaleDateString("id-ID"),
+      email: r.email,
+      namaPengguna: r.namaPengguna,
+      jabatan: r.jabatan || "-",
+      noWhatsapp: r.noWhatsapp,
+      namaLulusan: r.namaLulusan,
+      jabatanLulusan: r.jabatanLulusan,
+      programStudi: r.programStudi || "-",
+      tingkatanPerusahaan: r.tingkatanPerusahaan,
+      bidangPerusahaan: r.bidangPerusahaan,
+      kepuasanUmum: r.kepuasanUmum,
+      harapanPengguna: r.harapanPengguna,
+      integritas: r.integritas,
+      keahlianBidang: r.keahlianBidang,
+      kemampuanBahasa: r.kemampuanBahasa,
+      penggunaanTeknologi: r.penggunaanTeknologi,
+      komunikasi: r.komunikasi,
+      kerjasamaTim: r.kerjasamaTim,
+      pengembanganDiri: r.pengembanganDiri,
+    });
+  });
 
-  const csv = [headers.join(","), ...rows].join("\n");
+  // Add borders to all cells
+  sheet.eachRow((row) => {
+    row.eachCell((cell) => {
+      cell.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+    });
+  });
 
-  return new NextResponse(csv, {
+  const buffer = await workbook.xlsx.writeBuffer();
+  const date = new Date().toISOString().slice(0, 10);
+
+  return new NextResponse(buffer, {
     headers: {
-      "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="tracer-pengguna-${new Date().toISOString().slice(0, 10)}.csv"`,
+      "Content-Type":
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "Content-Disposition": `attachment; filename="tracer-pengguna-${date}.xlsx"`,
     },
   });
 }
