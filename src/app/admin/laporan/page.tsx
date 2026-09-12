@@ -30,6 +30,7 @@ export type ProdiReport = {
   tingkatan: Record<string, number>;
   bidang: Record<string, number>;
   harapan: { nama: string; teks: string }[];
+  perusahaan: { nama: string; jabatan: string; perusahaan: string; jabatanLulusan: string }[];
   kompetensi: Record<string, number>;
   kompetensiDist: Record<string, Record<string, number>>;
 };
@@ -55,6 +56,7 @@ export default async function LaporanPage() {
         tingkatan: {},
         bidang: {},
         harapan: [],
+        perusahaan: [],
         kompetensi: {},
         kompetensiDist: {},
       });
@@ -65,6 +67,7 @@ export default async function LaporanPage() {
     p.tingkatan[r.tingkatanPerusahaan] = (p.tingkatan[r.tingkatanPerusahaan] || 0) + 1;
     p.bidang[r.bidangPerusahaan] = (p.bidang[r.bidangPerusahaan] || 0) + 1;
     p.harapan.push({ nama: r.namaPengguna, teks: r.harapanPengguna });
+    p.perusahaan.push({ nama: r.namaPengguna, jabatan: r.jabatan || "", perusahaan: r.namaPerusahaan, jabatanLulusan: r.jabatanLulusan });
 
     for (const k of KOMPETENSI_KEYS) {
       const val = r[k];
@@ -92,12 +95,14 @@ export default async function LaporanPage() {
   const uniKompetensiSum: Record<string, number> = {};
   const uniKompetensiDist: Record<string, Record<string, number>> = {};
   const uniHarapan: { nama: string; teks: string }[] = [];
+  const uniPerusahaan: { nama: string; jabatan: string; perusahaan: string; jabatanLulusan: string }[] = [];
 
   for (const r of responses) {
     uniKepuasan[r.kepuasanUmum] = (uniKepuasan[r.kepuasanUmum] || 0) + 1;
     uniTingkatan[r.tingkatanPerusahaan] = (uniTingkatan[r.tingkatanPerusahaan] || 0) + 1;
     uniBidang[r.bidangPerusahaan] = (uniBidang[r.bidangPerusahaan] || 0) + 1;
     uniHarapan.push({ nama: r.namaPengguna, teks: r.harapanPengguna });
+    uniPerusahaan.push({ nama: r.namaPengguna, jabatan: r.jabatan || "", perusahaan: r.namaPerusahaan, jabatanLulusan: r.jabatanLulusan });
     for (const k of KOMPETENSI_KEYS) {
       const val = r[k];
       const score = SKALA_NILAI[val] || 0;
@@ -122,6 +127,7 @@ export default async function LaporanPage() {
     tingkatan: uniTingkatan,
     bidang: uniBidang,
     harapan: uniHarapan,
+    perusahaan: uniPerusahaan,
     kompetensi: uniKompetensi,
     kompetensiDist: uniKompetensiDist,
   };

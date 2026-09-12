@@ -529,6 +529,48 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // Daftar Perusahaan/Instansi
+  if (responses.length > 0) {
+    sections.push(
+      new Paragraph({
+        text: "Daftar Perusahaan/Instansi Pengguna",
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 400, after: 100 },
+      })
+    );
+
+    const perusahaanRows = [
+      new TableRow({
+        children: [
+          headerCell("No", 6),
+          headerCell("Nama Pengguna", 22),
+          headerCell("Jabatan", 18),
+          headerCell("Perusahaan/Instansi", 32),
+          headerCell("Jabatan Lulusan", 22),
+        ],
+      }),
+      ...responses.map((r, i) =>
+        new TableRow({
+          children: [
+            dataCell(String(i + 1), AlignmentType.CENTER),
+            dataCell(r.namaPengguna),
+            dataCell(r.jabatan || ""),
+            dataCell(r.namaPerusahaan),
+            dataCell(r.jabatanLulusan),
+          ],
+        })
+      ),
+    ];
+
+    sections.push(
+      new Table({
+        rows: perusahaanRows,
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        layout: TableLayoutType.FIXED,
+      })
+    );
+  }
+
   // Harapan Pengguna
   if (responses.length > 0) {
     sections.push(

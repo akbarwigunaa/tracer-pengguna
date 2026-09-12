@@ -337,6 +337,11 @@ function UniversityCard({ report, prodiCount }: { report: ProdiReport; prodiCoun
               </table>
             </div>
           </div>
+
+          {/* Daftar Perusahaan/Instansi */}
+          {report.perusahaan && report.perusahaan.length > 0 && (
+            <PerusahaanTable data={report.perusahaan} />
+          )}
         </div>
       )}
     </div>
@@ -529,6 +534,11 @@ function ProdiCard({ report }: { report: ProdiReport }) {
             </div>
           </div>
 
+          {/* Daftar Perusahaan/Instansi */}
+          {report.perusahaan && report.perusahaan.length > 0 && (
+            <PerusahaanTable data={report.perusahaan} />
+          )}
+
           {/* Harapan Pengguna */}
           {report.harapan.length > 0 && (
             <div>
@@ -557,6 +567,38 @@ function ProdiCard({ report }: { report: ProdiReport }) {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function PerusahaanTable({ data }: { data: { nama: string; jabatan: string; perusahaan: string; jabatanLulusan: string }[] }) {
+  return (
+    <div>
+      <h4 className="font-semibold text-sm text-gray-700 mb-3">Daftar Perusahaan/Instansi Pengguna</h4>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm border-collapse">
+          <thead>
+            <tr className="bg-primary-dark text-white">
+              <th className="p-3 text-center rounded-tl-lg w-12">No</th>
+              <th className="p-3 text-left">Nama Pengguna</th>
+              <th className="p-3 text-left">Jabatan</th>
+              <th className="p-3 text-left">Perusahaan/Instansi</th>
+              <th className="p-3 text-left rounded-tr-lg">Jabatan Lulusan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((d, i) => (
+              <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-blue-50"}>
+                <td className="p-3 text-center text-gray-500">{i + 1}</td>
+                <td className="p-3 font-medium whitespace-nowrap">{d.nama}</td>
+                <td className="p-3 text-gray-600">{d.jabatan}</td>
+                <td className="p-3 text-gray-600">{d.perusahaan}</td>
+                <td className="p-3 text-gray-600">{d.jabatanLulusan}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
