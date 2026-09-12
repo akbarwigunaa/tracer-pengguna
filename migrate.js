@@ -31,10 +31,33 @@ async function migrate() {
       )
     `);
     console.log("Database migration complete");
+
+    // Add tahun column if not exists
+    try {
+      await prisma.$executeRawUnsafe(`
+        ALTER TABLE "Response" ADD COLUMN IF NOT EXISTS "tahun" INTEGER NOT NULL DEFAULT 2024
+      `);
+      console.log("Column tahun ensured");
+    } catch (e2) {
+      if (e2.message && !e2.message.includes("already exists")) {
+        console.error("Add tahun column error:", e2.message);
+      }
+    }
   } catch (e) {
     // Table likely already exists
     if (e.message && e.message.includes("already exists")) {
       console.log("Table already exists, skipping");
+      // Still try to add tahun column
+      try {
+        await prisma.$executeRawUnsafe(`
+          ALTER TABLE "Response" ADD COLUMN IF NOT EXISTS "tahun" INTEGER NOT NULL DEFAULT 2024
+        `);
+        console.log("Column tahun ensured");
+      } catch (e2) {
+        if (e2.message && !e2.message.includes("already exists")) {
+          console.error("Add tahun column error:", e2.message);
+        }
+      }
     } else {
       console.error("Migration error:", e.message);
       process.exit(1);

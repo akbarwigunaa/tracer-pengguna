@@ -63,10 +63,14 @@ export default function LaporanProdi({
   reports,
   totalResponses,
   universityReport,
+  years,
+  selectedYear,
 }: {
   reports: ProdiReport[];
   totalResponses: number;
   universityReport: ProdiReport;
+  years: number[];
+  selectedYear: number | null;
 }) {
   const [selectedFakultas, setSelectedFakultas] = useState<string>("all");
   const router = useRouter();
@@ -119,19 +123,39 @@ export default function LaporanProdi({
           <div className="text-sm text-gray-600">
             Total <span className="font-bold text-primary-dark">{totalResponses}</span> respons dari{" "}
             <span className="font-bold text-primary-dark">{reports.length}</span> program studi
+            {selectedYear && (
+              <span className="ml-1">
+                — Tahun <span className="font-bold text-primary-dark">{selectedYear}</span>
+              </span>
+            )}
           </div>
-          <select
-            value={selectedFakultas}
-            onChange={(e) => setSelectedFakultas(e.target.value)}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white"
-          >
-            <option value="all">Semua Fakultas</option>
-            {fakultasList.map((f) => (
-              <option key={f} value={f}>
-                {f}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-2">
+            <select
+              value={selectedYear ?? "all"}
+              onChange={(e) => {
+                const val = e.target.value;
+                router.push(val === "all" ? "/admin/laporan" : `/admin/laporan?tahun=${val}`);
+              }}
+              className="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white"
+            >
+              <option value="all">Semua Tahun</option>
+              {years.map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+            <select
+              value={selectedFakultas}
+              onChange={(e) => setSelectedFakultas(e.target.value)}
+              className="border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white"
+            >
+              <option value="all">Semua Fakultas</option>
+              {fakultasList.map((f) => (
+                <option key={f} value={f}>
+                  {f}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Laporan Keseluruhan Universitas */}

@@ -10,6 +10,7 @@ datasource db {
 model Response {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
+  tahun     Int      @default(2024)
 
   // Bagian 1 - Identitas Pengguna
   email        String

@@ -55,6 +55,7 @@ const HEADER_MAP: Record<string, string> = {
   "komunikasi": "komunikasi",
   "kerjasama tim": "kerjasamaTim",
   "pengembangan diri": "pengembanganDiri",
+  "tahun": "tahun",
 };
 
 export async function POST(request: NextRequest) {
@@ -157,6 +158,7 @@ export async function POST(request: NextRequest) {
       komunikasi: r.komunikasi!,
       kerjasamaTim: r.kerjasamaTim!,
       pengembanganDiri: r.pengembanganDiri!,
+      tahun: r.tahun ? parseInt(r.tahun, 10) : new Date().getFullYear(),
     }));
 
     await prisma.response.createMany({ data });

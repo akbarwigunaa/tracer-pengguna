@@ -42,6 +42,7 @@ export async function GET() {
     { header: "Komunikasi", key: "komunikasi", width: 14 },
     { header: "Kerjasama Tim", key: "kerjasamaTim", width: 14 },
     { header: "Pengembangan Diri", key: "pengembanganDiri", width: 16 },
+    { header: "Tahun", key: "tahun", width: 10 },
   ];
 
   // Style header row
@@ -78,6 +79,7 @@ export async function GET() {
       komunikasi: r.komunikasi,
       kerjasamaTim: r.kerjasamaTim,
       pengembanganDiri: r.pengembanganDiri,
+      tahun: r.tahun,
     });
   });
 

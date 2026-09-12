@@ -35,5 +35,7 @@ export default async function AdminPage() {
       stats.tingkatan[r.tingkatanPerusahaan]++;
   }
 
-  return <AdminDashboard responses={responses} stats={stats} />;
+  const years = [...new Set(responses.map((r) => r.tahun))].sort((a, b) => b - a);
+
+  return <AdminDashboard responses={responses} stats={stats} years={years} />;
 }

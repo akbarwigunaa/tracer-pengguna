@@ -27,6 +27,7 @@ type Response = {
   komunikasi: string;
   kerjasamaTim: string;
   pengembanganDiri: string;
+  tahun: number;
 };
 
 type Stats = {
@@ -38,21 +39,26 @@ type Stats = {
 export default function AdminDashboard({
   responses,
   stats,
+  years,
 }: {
   responses: Response[];
   stats: Stats;
+  years: number[];
 }) {
   const [search, setSearch] = useState("");
+  const [selectedYear, setSelectedYear] = useState<string>("all");
   const [importing, setImporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  const filtered = responses.filter(
-    (r) =>
+  const filtered = responses.filter((r) => {
+    const matchYear = selectedYear === "all" || r.tahun === Number(selectedYear);
+    const matchSearch =
       r.namaPengguna.toLowerCase().includes(search.toLowerCase()) ||
       r.namaLulusan.toLowerCase().includes(search.toLowerCase()) ||
-      r.email.toLowerCase().includes(search.toLowerCase())
-  );
+      r.email.toLowerCase().includes(search.toLowerCase());
+    return matchYear && matchSearch;
+  });
 
   async function handleLogout() {
     await logout();
@@ -217,14 +223,33 @@ export default function AdminDashboard({
         {/* Search & table */}
         <div className="bg-white rounded-lg shadow-sm p-5">
           <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
-            <h2 className="font-bold text-lg">Data Respons</h2>
-            <input
-              type="text"
-              placeholder="Cari nama atau email..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="border border-gray-300 rounded-lg px-4 py-2 text-sm w-64"
-            />
+            <h2 className="font-bold text-lg">
+              Data Respons
+              {selectedYear !== "all" && (
+                <span className="text-sm font-normal text-gray-500 ml-2">
+                  ({filtered.length} data)
+                </span>
+              )}
+            </h2>
+            <div className="flex items-center gap-2">
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              >
+                <option value="all">Semua Tahun</option>
+                {years.map((y) => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+              <input
+                type="text"
+                placeholder="Cari nama atau email..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="border border-gray-300 rounded-lg px-4 py-2 text-sm w-64"
+              />
+            </div>
           </div>
 
           <div className="overflow-x-auto">

@@ -35,13 +35,22 @@ export type ProdiReport = {
   kompetensiDist: Record<string, Record<string, number>>;
 };
 
-export default async function LaporanPage() {
+export default async function LaporanPage({ searchParams }: { searchParams: Promise<{ tahun?: string }> }) {
   const authed = await isAuthenticated();
   if (!authed) redirect("/admin/login");
 
-  const responses = await prisma.response.findMany({
+  const params = await searchParams;
+  const selectedYear = params.tahun ? parseInt(params.tahun, 10) : null;
+
+  const allResponses = await prisma.response.findMany({
     orderBy: { createdAt: "desc" },
   });
+
+  const years = [...new Set(allResponses.map((r) => r.tahun))].sort((a, b) => b - a);
+
+  const responses = selectedYear
+    ? allResponses.filter((r) => r.tahun === selectedYear)
+    : allResponses;
 
   const prodiMap = new Map<string, ProdiReport>();
 
@@ -132,5 +141,5 @@ export default async function LaporanPage() {
     kompetensiDist: uniKompetensiDist,
   };
 
-  return <LaporanProdi reports={reports} totalResponses={responses.length} universityReport={universityReport} />;
+  return <LaporanProdi reports={reports} totalResponses={responses.length} universityReport={universityReport} years={years} selectedYear={selectedYear} />;
 }

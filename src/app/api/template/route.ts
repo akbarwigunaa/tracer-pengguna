@@ -23,6 +23,7 @@ const COLUMNS = [
   { header: "Komunikasi", key: "komunikasi", width: 14 },
   { header: "Kerjasama Tim", key: "kerjasamaTim", width: 16 },
   { header: "Pengembangan Diri", key: "pengembanganDiri", width: 18 },
+  { header: "Tahun", key: "tahun", width: 10 },
 ];
 
 const EXAMPLE_ROW = {
@@ -46,6 +47,7 @@ const EXAMPLE_ROW = {
   komunikasi: "Baik",
   kerjasamaTim: "Baik",
   pengembanganDiri: "Sangat baik",
+  tahun: new Date().getFullYear(),
 };
 
 export async function GET() {
@@ -161,6 +163,7 @@ export async function GET() {
     ["Komunikasi", "Ya", "Sangat baik / Baik / Cukup / Kurang", "Baik"],
     ["Kerjasama Tim", "Ya", "Sangat baik / Baik / Cukup / Kurang", "Baik"],
     ["Pengembangan Diri", "Ya", "Sangat baik / Baik / Cukup / Kurang", "Sangat baik"],
+    ["Tahun", "Tidak", "Tahun pengambilan data (default: tahun ini)", "2024"],
   ];
 
   guideData.forEach((row) => guide.addRow(row));

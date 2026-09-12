@@ -13,6 +13,7 @@ export async function submitResponse(
 ): Promise<FormState> {
   try {
     const data = {
+      tahun: new Date().getFullYear(),
       email: formData.get("email") as string,
       namaPengguna: formData.get("namaPengguna") as string,
       jabatan: (formData.get("jabatan") as string) || null,
