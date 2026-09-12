@@ -60,9 +60,11 @@ function IconWord() {
 export default function LaporanProdi({
   reports,
   totalResponses,
+  universityReport,
 }: {
   reports: ProdiReport[];
   totalResponses: number;
+  universityReport: ProdiReport;
 }) {
   const [selectedFakultas, setSelectedFakultas] = useState<string>("all");
   const router = useRouter();
@@ -130,6 +132,11 @@ export default function LaporanProdi({
           </select>
         </div>
 
+        {/* Laporan Keseluruhan Universitas */}
+        {selectedFakultas === "all" && universityReport.total > 0 && (
+          <UniversityCard report={universityReport} prodiCount={reports.length} />
+        )}
+
         {filtered.length === 0 ? (
           <div className="bg-white rounded-lg shadow-sm p-12 text-center text-gray-400">
             Belum ada data respons
@@ -140,6 +147,179 @@ export default function LaporanProdi({
           ))
         )}
       </main>
+    </div>
+  );
+}
+
+function UniversityCard({ report, prodiCount }: { report: ProdiReport; prodiCount: number }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const kompetensiEntries = Object.entries(report.kompetensi);
+  const avgAll =
+    kompetensiEntries.length > 0
+      ? kompetensiEntries.reduce((sum, [, v]) => sum + v, 0) / kompetensiEntries.length
+      : 0;
+
+  return (
+    <div className="bg-primary-dark rounded-lg shadow-lg overflow-hidden">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full p-5 flex items-center justify-between hover:bg-primary-dark/90 transition-colors text-left"
+      >
+        <div>
+          <div className="text-xs text-white/60 mb-1">Laporan Keseluruhan</div>
+          <h3 className="text-lg font-bold text-white">Universitas Muhammadiyah Sidoarjo</h3>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-right">
+            <div className="text-2xl font-bold text-white">{report.total}</div>
+            <div className="text-xs text-white/60">respons</div>
+          </div>
+          <div className="text-right hidden sm:block">
+            <div className="text-2xl font-bold text-white">{prodiCount}</div>
+            <div className="text-xs text-white/60">prodi</div>
+          </div>
+          <div className="text-right hidden sm:block">
+            <div className="text-2xl font-bold text-white">{avgAll.toFixed(2)}</div>
+            <div className="text-xs text-white/60">rata-rata</div>
+          </div>
+          <svg
+            className={`w-5 h-5 text-white/60 transition-transform ${expanded ? "rotate-180" : ""}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </button>
+
+      {expanded && (
+        <div className="bg-white border-t px-5 pb-5 space-y-5">
+          {/* Kepuasan */}
+          <div className="pt-4">
+            <h4 className="font-semibold text-sm text-gray-700 mb-3">Kepuasan Pengguna</h4>
+            <div className="space-y-2">
+              {KEPUASAN_ORDER.map((k) => {
+                const count = report.kepuasan[k] || 0;
+                const pct = report.total > 0 ? (count / report.total) * 100 : 0;
+                return (
+                  <div key={k} className="flex items-center gap-3">
+                    <div className="w-32 text-sm text-gray-600 shrink-0">{k}</div>
+                    <div className="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full ${KEPUASAN_COLORS[k]} transition-all`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <div className="w-20 text-sm text-right text-gray-600">
+                      {count} ({pct.toFixed(0)}%)
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Tingkatan */}
+          <div>
+            <h4 className="font-semibold text-sm text-gray-700 mb-3">Tingkatan Perusahaan/Instansi</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {["Lokal", "Nasional", "Multinasional/Internasional"].map((t) => {
+                const count = report.tingkatan[t] || 0;
+                const pct = report.total > 0 ? (count / report.total) * 100 : 0;
+                return (
+                  <div key={t} className="bg-gray-50 rounded-lg p-3 text-center">
+                    <div className="text-xl font-bold text-primary-dark">{count}</div>
+                    <div className="text-xs text-gray-500">{t}</div>
+                    <div className="text-xs text-gray-400">{pct.toFixed(0)}%</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Bidang */}
+          {Object.keys(report.bidang).length > 0 && (
+            <div>
+              <h4 className="font-semibold text-sm text-gray-700 mb-3">Bidang Perusahaan/Instansi</h4>
+              <div className="space-y-2">
+                {Object.entries(report.bidang)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([b, count]) => {
+                    const pct = report.total > 0 ? (count / report.total) * 100 : 0;
+                    return (
+                      <div key={b} className="flex items-center gap-3">
+                        <div className="w-40 text-sm text-gray-600 shrink-0 truncate" title={b}>{b}</div>
+                        <div className="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-primary/70 transition-all"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <div className="w-20 text-sm text-right text-gray-600">
+                          {count} ({pct.toFixed(0)}%)
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
+
+          {/* Kompetensi */}
+          <div>
+            <h4 className="font-semibold text-sm text-gray-700 mb-3">
+              Rata-rata Kompetensi <span className="text-gray-400 font-normal">(skala 1-4)</span>
+            </h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="bg-primary-dark text-white">
+                    <th className="p-3 text-left rounded-tl-lg">Kompetensi</th>
+                    <th className="p-3 text-center">Rata-rata</th>
+                    <th className="p-3 text-left rounded-tr-lg">Visualisasi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {kompetensiEntries.map(([key, avg], i) => (
+                    <tr key={key} className={i % 2 === 0 ? "bg-white" : "bg-blue-50"}>
+                      <td className="p-3 font-medium">{KOMPETENSI_LABELS[key] || key}</td>
+                      <td className="p-3 text-center">
+                        <span className={`font-bold ${getScoreColor(avg)}`}>{avg.toFixed(2)}</span>
+                      </td>
+                      <td className="p-3">
+                        <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden max-w-48">
+                          <div
+                            className={`h-full rounded-full ${getBarColor(avg)} transition-all`}
+                            style={{ width: `${(avg / 4) * 100}%` }}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr className="bg-gray-100 font-bold">
+                    <td className="p-3">Rata-rata Keseluruhan</td>
+                    <td className="p-3 text-center">
+                      <span className={getScoreColor(avgAll)}>{avgAll.toFixed(2)}</span>
+                    </td>
+                    <td className="p-3">
+                      <div className="flex-1 bg-gray-200 rounded-full h-4 overflow-hidden max-w-48">
+                        <div
+                          className={`h-full rounded-full ${getBarColor(avgAll)} transition-all`}
+                          style={{ width: `${(avgAll / 4) * 100}%` }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

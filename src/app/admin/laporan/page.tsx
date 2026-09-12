@@ -81,5 +81,41 @@ export default async function LaporanPage() {
     })
     .sort((a, b) => a.fakultas.localeCompare(b.fakultas) || a.programStudi.localeCompare(b.programStudi));
 
-  return <LaporanProdi reports={reports} totalResponses={responses.length} />;
+  // Build university-wide report
+  const uniKepuasan: Record<string, number> = {};
+  const uniTingkatan: Record<string, number> = {};
+  const uniBidang: Record<string, number> = {};
+  const uniKompetensiSum: Record<string, number> = {};
+  const uniHarapan: { nama: string; teks: string }[] = [];
+
+  for (const r of responses) {
+    uniKepuasan[r.kepuasanUmum] = (uniKepuasan[r.kepuasanUmum] || 0) + 1;
+    uniTingkatan[r.tingkatanPerusahaan] = (uniTingkatan[r.tingkatanPerusahaan] || 0) + 1;
+    uniBidang[r.bidangPerusahaan] = (uniBidang[r.bidangPerusahaan] || 0) + 1;
+    uniHarapan.push({ nama: r.namaPengguna, teks: r.harapanPengguna });
+    for (const k of KOMPETENSI_KEYS) {
+      const score = SKALA_NILAI[r[k]] || 0;
+      uniKompetensiSum[k] = (uniKompetensiSum[k] || 0) + score;
+    }
+  }
+
+  const uniKompetensi: Record<string, number> = {};
+  for (const k of KOMPETENSI_KEYS) {
+    uniKompetensi[k] = responses.length > 0
+      ? Number(((uniKompetensiSum[k] || 0) / responses.length).toFixed(2))
+      : 0;
+  }
+
+  const universityReport: ProdiReport = {
+    fakultas: "Universitas Muhammadiyah Sidoarjo",
+    programStudi: "Seluruh Program Studi",
+    total: responses.length,
+    kepuasan: uniKepuasan,
+    tingkatan: uniTingkatan,
+    bidang: uniBidang,
+    harapan: uniHarapan,
+    kompetensi: uniKompetensi,
+  };
+
+  return <LaporanProdi reports={reports} totalResponses={responses.length} universityReport={universityReport} />;
 }
