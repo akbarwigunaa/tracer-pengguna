@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { logout } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 
@@ -43,6 +43,8 @@ export default function AdminDashboard({
   stats: Stats;
 }) {
   const [search, setSearch] = useState("");
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const filtered = responses.filter(
@@ -57,12 +59,60 @@ export default function AdminDashboard({
     router.push("/admin/login");
   }
 
+  async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImporting(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/import", { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.success) {
+        alert(`Berhasil import ${data.imported} data.${data.skipped ? ` ${data.skipped} baris dilewati.` : ""}`);
+        router.refresh();
+      } else {
+        alert(`Gagal: ${data.error}`);
+      }
+    } catch {
+      alert("Gagal mengupload file");
+    } finally {
+      setImporting(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-primary-dark text-white py-4 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
           <h1 className="text-xl font-bold">Admin — Tracer Pengguna UMSIDA</h1>
           <div className="flex items-center gap-3">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".xlsx,.xls"
+              onChange={handleImport}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={importing}
+              className="p-2 bg-white text-primary-dark rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-50"
+              title="Import dari Excel"
+            >
+              {importing ? (
+                <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM6 20V4h7v5h5v11H6z" />
+                  <path d="M12 12l-4 4h2.5v3h3v-3H16l-4-4z" />
+                </svg>
+              )}
+            </button>
             <a
               href="/admin/laporan"
               className="px-4 py-2 bg-white text-primary-dark rounded-lg text-sm font-medium hover:bg-blue-50 transition-colors flex items-center gap-2"
