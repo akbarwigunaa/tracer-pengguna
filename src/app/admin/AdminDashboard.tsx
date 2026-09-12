@@ -59,6 +59,21 @@ export default function AdminDashboard({
     router.push("/admin/login");
   }
 
+  async function handleDelete(id: string, nama: string) {
+    if (!confirm(`Hapus data dari "${nama}"?`)) return;
+    try {
+      const res = await fetch(`/api/responses/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) {
+        router.refresh();
+      } else {
+        alert(`Gagal: ${data.error}`);
+      }
+    } catch {
+      alert("Gagal menghapus data");
+    }
+  }
+
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -225,6 +240,7 @@ export default function AdminDashboard({
                   <th className="p-3">Tingkatan</th>
                   <th className="p-3">Kepuasan</th>
                   <th className="p-3">Harapan</th>
+                  <th className="p-3 text-center">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -253,11 +269,22 @@ export default function AdminDashboard({
                     <td className="p-3 max-w-xs truncate">
                       {r.harapanPengguna}
                     </td>
+                    <td className="p-3 text-center">
+                      <button
+                        onClick={() => handleDelete(r.id, r.namaPengguna)}
+                        className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        title="Hapus data"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </td>
                   </tr>
                 ))}
                 {filtered.length === 0 && (
                   <tr>
-                    <td colSpan={9} className="p-8 text-center text-gray-400">
+                    <td colSpan={10} className="p-8 text-center text-gray-400">
                       {search
                         ? "Tidak ada data yang cocok"
                         : "Belum ada respons"}
