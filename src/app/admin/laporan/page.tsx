@@ -29,7 +29,7 @@ export type ProdiReport = {
   kepuasan: Record<string, number>;
   tingkatan: Record<string, number>;
   bidang: Record<string, number>;
-  harapan: Record<string, number>;
+  harapan: { nama: string; teks: string }[];
   kompetensi: Record<string, number>;
 };
 
@@ -53,7 +53,7 @@ export default async function LaporanPage() {
         kepuasan: {},
         tingkatan: {},
         bidang: {},
-        harapan: {},
+        harapan: [],
         kompetensi: {},
       });
     }
@@ -62,7 +62,7 @@ export default async function LaporanPage() {
     p.kepuasan[r.kepuasanUmum] = (p.kepuasan[r.kepuasanUmum] || 0) + 1;
     p.tingkatan[r.tingkatanPerusahaan] = (p.tingkatan[r.tingkatanPerusahaan] || 0) + 1;
     p.bidang[r.bidangPerusahaan] = (p.bidang[r.bidangPerusahaan] || 0) + 1;
-    p.harapan[r.harapanPengguna] = (p.harapan[r.harapanPengguna] || 0) + 1;
+    p.harapan.push({ nama: r.namaPengguna, teks: r.harapanPengguna });
 
     for (const k of KOMPETENSI_KEYS) {
       const val = r[k];

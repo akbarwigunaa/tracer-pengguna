@@ -272,34 +272,6 @@ function ProdiCard({ report }: { report: ProdiReport }) {
             </div>
           )}
 
-          {/* Harapan Pengguna */}
-          {Object.keys(report.harapan).length > 0 && (
-            <div>
-              <h4 className="font-semibold text-sm text-gray-700 mb-3">Harapan Pengguna</h4>
-              <div className="space-y-2">
-                {Object.entries(report.harapan)
-                  .sort((a, b) => b[1] - a[1])
-                  .map(([h, count]) => {
-                    const pct = report.total > 0 ? (count / report.total) * 100 : 0;
-                    return (
-                      <div key={h} className="flex items-center gap-3">
-                        <div className="w-64 text-sm text-gray-600 shrink-0" title={h}>{h}</div>
-                        <div className="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
-                          <div
-                            className="h-full rounded-full bg-amber-500/70 transition-all"
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-                        <div className="w-20 text-sm text-right text-gray-600">
-                          {count} ({pct.toFixed(0)}%)
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-          )}
-
           {/* Kompetensi */}
           <div>
             <h4 className="font-semibold text-sm text-gray-700 mb-3">
@@ -355,6 +327,33 @@ function ProdiCard({ report }: { report: ProdiReport }) {
               </table>
             </div>
           </div>
+
+          {/* Harapan Pengguna */}
+          {report.harapan.length > 0 && (
+            <div>
+              <h4 className="font-semibold text-sm text-gray-700 mb-3">Harapan Pengguna</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead>
+                    <tr className="bg-primary-dark text-white">
+                      <th className="p-3 text-center rounded-tl-lg w-12">No</th>
+                      <th className="p-3 text-left">Nama Pengguna</th>
+                      <th className="p-3 text-left rounded-tr-lg">Harapan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {report.harapan.map((h, i) => (
+                      <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-blue-50"}>
+                        <td className="p-3 text-center text-gray-500">{i + 1}</td>
+                        <td className="p-3 font-medium whitespace-nowrap">{h.nama}</td>
+                        <td className="p-3 text-gray-600">{h.teks}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
