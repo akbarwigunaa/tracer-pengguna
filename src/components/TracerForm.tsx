@@ -102,9 +102,17 @@ export default function TracerForm() {
   function validateStep(): boolean {
     const missing: string[] = [];
     if (step === 1) {
-      if (!formValues.email) missing.push("Email");
+      if (!formValues.email) {
+        missing.push("Email");
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formValues.email)) {
+        missing.push("Email harus berformat valid (contoh: nama@email.com)");
+      }
       if (!formValues.namaPengguna) missing.push("Nama Pengguna");
-      if (!formValues.noWhatsapp) missing.push("No WhatsApp");
+      if (!formValues.noWhatsapp) {
+        missing.push("No WhatsApp");
+      } else if (!/^(\+?62|0)[0-9]{8,13}$/.test(formValues.noWhatsapp.replace(/[\s-]/g, ""))) {
+        missing.push("No WhatsApp harus berupa nomor valid (contoh: 08123456789)");
+      }
       if (!formValues.namaPerusahaan) missing.push("Nama Perusahaan/Institusi");
     } else if (step === 2) {
       if (!formValues.namaLulusan) missing.push("Nama Lulusan");
