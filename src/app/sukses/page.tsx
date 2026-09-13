@@ -60,7 +60,10 @@ export default function Sukses() {
               Jika ada pertanyaan lebih lanjut, silakan hubungi:
             </p>
             <p className="text-gray-600 text-sm mt-1">
-              Pusat Informasi dan Pusat Karir — Universitas Muhammadiyah Sidoarjo
+              Pusat Informasi dan Pengembangan Karir — Universitas Muhammadiyah Sidoarjo
+            </p>
+            <p className="text-primary text-sm font-medium mt-2">
+              pinpku@umsida.ac.id
             </p>
           </div>
 
