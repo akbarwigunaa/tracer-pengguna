@@ -1,0 +1,652 @@
+<title>Modul Panduan Admin &mdash; Tracer Pengguna Lulusan UMSIDA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500&display=swap">
+<style>
+  :root {
+    --c-primary: #0f2340;
+    --c-accent: #1d4ed8;
+    --c-accent-light: #eff6ff;
+    --c-surface: #f7f8fa;
+    --c-surface-alt: #eef1f5;
+    --c-card: #ffffff;
+    --c-text: #1e2a3a;
+    --c-muted: #6b7a8d;
+    --c-border: #d4dae3;
+    --c-code-bg: #f0f2f5;
+    --c-table-header: #0f2340;
+    --c-table-header-text: #ffffff;
+    --c-table-stripe: #f5f7fa;
+    --c-tag-bg: #eff6ff;
+    --c-tag-text: #1d4ed8;
+    --c-danger-bg: #fef2f2;
+    --c-danger-border: #ef4444;
+    --c-success-bg: #f0fdf4;
+    --c-success-border: #22c55e;
+    --c-warning-bg: #fff8e6;
+    --c-warning-border: #e6c200;
+    --c-info-bg: #eff6ff;
+    --c-info-border: #3b82f6;
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-code: 'Source Code Pro', 'Menlo', 'Consolas', monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --c-primary: #6ba3d6;
+      --c-accent: #60a5fa;
+      --c-accent-light: #172040;
+      --c-surface: #111820;
+      --c-surface-alt: #161e28;
+      --c-card: #1a2332;
+      --c-text: #d8dfe8;
+      --c-muted: #8899aa;
+      --c-border: #2a3a4c;
+      --c-code-bg: #141c26;
+      --c-table-header: #1e3048;
+      --c-table-header-text: #d8dfe8;
+      --c-table-stripe: #141c26;
+      --c-tag-bg: #172040;
+      --c-tag-text: #60a5fa;
+      --c-danger-bg: #200a0a;
+      --c-danger-border: #dc2626;
+      --c-success-bg: #0a2010;
+      --c-success-border: #16a34a;
+      --c-warning-bg: #2a2510;
+      --c-warning-border: #8a7500;
+      --c-info-bg: #101830;
+      --c-info-border: #2563eb;
+    }
+  }
+  :root[data-theme="dark"] {
+    --c-primary: #6ba3d6;
+    --c-accent: #60a5fa;
+    --c-accent-light: #172040;
+    --c-surface: #111820;
+    --c-surface-alt: #161e28;
+    --c-card: #1a2332;
+    --c-text: #d8dfe8;
+    --c-muted: #8899aa;
+    --c-border: #2a3a4c;
+    --c-code-bg: #141c26;
+    --c-table-header: #1e3048;
+    --c-table-header-text: #d8dfe8;
+    --c-table-stripe: #141c26;
+    --c-tag-bg: #172040;
+    --c-tag-text: #60a5fa;
+    --c-danger-bg: #200a0a;
+    --c-danger-border: #dc2626;
+    --c-success-bg: #0a2010;
+    --c-success-border: #16a34a;
+    --c-warning-bg: #2a2510;
+    --c-warning-border: #8a7500;
+    --c-info-bg: #101830;
+    --c-info-border: #2563eb;
+  }
+
+  body {
+    background: var(--c-surface);
+    color: var(--c-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--c-primary);
+    text-wrap: balance;
+    line-height: 1.25;
+  }
+  h1 { font-size: 2.1rem; margin: 0 0 0.3em; }
+  h2 { font-size: 1.5rem; margin: 2.4em 0 0.6em; padding-bottom: 0.35em; border-bottom: 2px solid var(--c-border); }
+  h3 { font-size: 1.15rem; margin: 1.8em 0 0.5em; color: var(--c-accent); font-family: var(--font-body); font-weight: 700; }
+
+  p { margin: 0 0 1em; }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--c-muted);
+    margin: 0 0 0.3em;
+    font-weight: 300;
+  }
+  .meta-line {
+    font-size: 0.85rem;
+    color: var(--c-muted);
+    margin-bottom: 2.5em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0 1.5em;
+    font-size: 0.92rem;
+  }
+  .table-wrap { overflow-x: auto; }
+  thead th {
+    background: var(--c-table-header);
+    color: var(--c-table-header-text);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  thead th:first-child { border-radius: 6px 0 0 0; }
+  thead th:last-child { border-radius: 0 6px 0 0; }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--c-border);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) { background: var(--c-table-stripe); }
+
+  code {
+    font-family: var(--font-code);
+    font-size: 0.88em;
+    background: var(--c-code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--c-tag-bg);
+    color: var(--c-tag-text);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .note-box {
+    background: var(--c-warning-bg);
+    border-left: 4px solid var(--c-warning-border);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 1.5em 0;
+    font-size: 0.92rem;
+  }
+  .info-box {
+    background: var(--c-info-bg);
+    border-left: 4px solid var(--c-info-border);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 1.5em 0;
+    font-size: 0.92rem;
+  }
+  .danger-box {
+    background: var(--c-danger-bg);
+    border-left: 4px solid var(--c-danger-border);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 1.5em 0;
+    font-size: 0.92rem;
+  }
+  .success-box {
+    background: var(--c-success-bg);
+    border-left: 4px solid var(--c-success-border);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 1.5em 0;
+    font-size: 0.92rem;
+  }
+
+  .step-card {
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 1em 0;
+  }
+  .step-card .step-num {
+    display: inline-block;
+    background: var(--c-accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .step-card .step-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--c-primary);
+  }
+  .step-card .step-body {
+    margin-top: 12px;
+    color: var(--c-text);
+  }
+
+  .icon-desc {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .icon-desc:last-child { border-bottom: none; }
+  .icon-desc .icon-box {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--c-surface-alt);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+  .icon-desc .icon-text { flex: 1; }
+  .icon-desc .icon-text strong { display: block; margin-bottom: 2px; }
+  .icon-desc .icon-text span { font-size: 0.9rem; color: var(--c-muted); }
+
+  ul, ol { margin: 0.5em 0 1.2em; padding-left: 1.5em; }
+  li { margin-bottom: 0.3em; }
+
+  @media print {
+    body { max-width: 100%; padding: 20px; font-size: 11pt; }
+    h2 { page-break-after: avoid; }
+    .step-card, table { page-break-inside: avoid; }
+  }
+</style>
+
+<h1>Modul Panduan Admin</h1>
+<p class="subtitle">Tracer Pengguna Lulusan &mdash; Universitas Muhammadiyah Sidoarjo</p>
+<p class="meta-line">Pusat Informasi dan Pengembangan Karir (PINPKU) UMSIDA &middot; September 2026</p>
+
+<!-- ==================== BAB 1 ==================== -->
+<h2>1. Login Admin</h2>
+
+<h3>1.1 Mengakses Halaman Login</h3>
+<p>Halaman admin dapat diakses melalui dua cara:</p>
+<ul>
+  <li>Klik tombol <strong>"Admin"</strong> di pojok kanan atas halaman kuesioner</li>
+  <li>Atau langsung akses URL: <code>https://tracer-pengguna-production.up.railway.app/admin/login</code></li>
+</ul>
+
+<h3>1.2 Proses Login</h3>
+<div class="step-card">
+  <span class="step-num">1</span><span class="step-title">Masukkan Password</span>
+  <div class="step-body">Ketikkan password admin pada field yang tersedia. Password diberikan oleh pengelola sistem.</div>
+</div>
+
+<div class="step-card">
+  <span class="step-num">2</span><span class="step-title">Klik "Masuk"</span>
+  <div class="step-body">Jika password benar, Anda akan diarahkan ke Dashboard Admin. Jika salah, muncul pesan "Password salah".</div>
+</div>
+
+<div class="info-box">
+  <strong>Sesi Login:</strong> Sesi admin berlaku selama <strong>24 jam</strong>. Setelah itu, Anda perlu login kembali. Klik tombol <strong>"Logout"</strong> di header untuk keluar secara manual.
+</div>
+
+<!-- ==================== BAB 2 ==================== -->
+<h2>2. Dashboard Admin</h2>
+
+<p>Setelah login, Anda akan melihat Dashboard Admin yang terdiri dari beberapa bagian:</p>
+
+<h3>2.1 Statistik Ringkasan</h3>
+<p>Bagian atas menampilkan 4 kartu statistik:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Kartu</th><th>Keterangan</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Total Respons</strong></td><td>Jumlah total respons yang masuk</td></tr>
+    <tr><td><strong>Sangat Puas</strong></td><td>Jumlah dan persentase responden yang memilih "Sangat Puas"</td></tr>
+    <tr><td><strong>Puas</strong></td><td>Jumlah dan persentase responden yang memilih "Puas"</td></tr>
+    <tr><td><strong>Cukup / Kurang</strong></td><td>Jumlah gabungan responden yang memilih "Cukup", "Kurang Puas", atau "Sangat Tidak Puas"</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>2.2 Tingkatan Perusahaan</h3>
+<p>Di bawah statistik, terdapat ringkasan jumlah perusahaan berdasarkan tingkatan: <strong>Lokal</strong>, <strong>Nasional</strong>, dan <strong>Multinasional/Internasional</strong>.</p>
+
+<h3>2.3 Toolbar Header</h3>
+<p>Toolbar di bagian atas menyediakan tombol-tombol aksi:</p>
+
+<div class="step-card">
+  <div class="icon-desc">
+    <div class="icon-box">&darr;</div>
+    <div class="icon-text">
+      <strong>Download Template Excel</strong>
+      <span>Mengunduh file template Excel (.xlsx) yang berisi format kolom, dropdown validasi, dan panduan pengisian untuk import data</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">&uarr;</div>
+    <div class="icon-text">
+      <strong>Import dari Excel</strong>
+      <span>Mengupload file Excel (.xlsx) untuk menambahkan data secara massal ke database</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">&#9783;</div>
+    <div class="icon-text">
+      <strong>Laporan Prodi</strong>
+      <span>Membuka halaman laporan agregat per program studi dan universitas</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">&#8679;</div>
+    <div class="icon-text">
+      <strong>Export Excel</strong>
+      <span>Mengunduh seluruh data respons ke file Excel (.xlsx)</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">&#10151;</div>
+    <div class="icon-text">
+      <strong>Logout</strong>
+      <span>Keluar dari sesi admin</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BAB 3 ==================== -->
+<h2>3. Tabel Data Respons</h2>
+
+<h3>3.1 Pencarian dan Filter</h3>
+<p>Di atas tabel data, tersedia dua alat bantu:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Alat</th><th>Fungsi</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Dropdown Tahun</strong></td><td>Filter data berdasarkan tahun pengambilan. Pilih "Semua Tahun" untuk melihat seluruh data, atau pilih tahun tertentu.</td></tr>
+    <tr><td><strong>Kolom Pencarian</strong></td><td>Ketikkan nama atau email untuk mencari respons tertentu. Pencarian bersifat real-time.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3.2 Kolom Tabel</h3>
+<p>Tabel menampilkan data dengan kolom berikut:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Kolom</th><th>Isi</th></tr></thead>
+  <tbody>
+    <tr><td>#</td><td>Nomor urut</td></tr>
+    <tr><td>Tanggal</td><td>Tanggal pengisian kuesioner</td></tr>
+    <tr><td>Pengguna</td><td>Nama dan email pengguna lulusan</td></tr>
+    <tr><td>Lulusan</td><td>Nama dan jabatan lulusan</td></tr>
+    <tr><td>Fakultas</td><td>Fakultas asal lulusan</td></tr>
+    <tr><td>Prodi</td><td>Program studi lulusan</td></tr>
+    <tr><td>Tingkatan</td><td>Tingkatan perusahaan (Lokal/Nasional/Multinasional)</td></tr>
+    <tr><td>Kepuasan</td><td>Tingkat kepuasan umum (badge berwarna)</td></tr>
+    <tr><td>Harapan</td><td>Ringkasan harapan pengguna</td></tr>
+    <tr><td>Aksi</td><td>Tombol hapus (ikon tempat sampah merah)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3.3 Menghapus Data</h3>
+
+<div class="step-card">
+  <span class="step-num">1</span><span class="step-title">Klik ikon tempat sampah (merah) pada baris yang ingin dihapus</span>
+  <div class="step-body">Ikon berada di kolom "Aksi" paling kanan.</div>
+</div>
+
+<div class="step-card">
+  <span class="step-num">2</span><span class="step-title">Konfirmasi penghapusan</span>
+  <div class="step-body">Dialog konfirmasi akan muncul: <em>"Hapus data dari [Nama]?"</em>. Klik <strong>OK</strong> untuk menghapus atau <strong>Batal</strong> untuk membatalkan.</div>
+</div>
+
+<div class="danger-box">
+  <strong>Peringatan:</strong> Penghapusan bersifat <strong>permanen</strong> dan tidak dapat dibatalkan. Pastikan Anda menghapus data yang benar. Disarankan untuk melakukan export Excel terlebih dahulu sebagai backup.
+</div>
+
+<!-- ==================== BAB 4 ==================== -->
+<h2>4. Import Data dari Excel</h2>
+
+<p>Fitur import memungkinkan Anda menambahkan data secara massal dari file Excel, berguna untuk memasukkan data historis atau data yang dikumpulkan secara offline.</p>
+
+<h3>4.1 Download Template</h3>
+<div class="step-card">
+  <span class="step-num">1</span><span class="step-title">Klik ikon Download Template di header</span>
+  <div class="step-body">File <code>template-tracer-pengguna.xlsx</code> akan terunduh. File ini berisi:
+    <ul>
+      <li><strong>Sheet "Data Respons"</strong> &mdash; kolom-kolom yang harus diisi, lengkap dengan contoh baris pertama</li>
+      <li><strong>Sheet "Panduan"</strong> &mdash; penjelasan setiap kolom dan pilihan yang valid</li>
+      <li><strong>Dropdown validasi</strong> &mdash; beberapa kolom memiliki dropdown otomatis (fakultas, tingkatan, kepuasan, skala kompetensi)</li>
+    </ul>
+  </div>
+</div>
+
+<h3>4.2 Mengisi Template</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Kolom</th><th>Wajib</th><th>Keterangan</th></tr></thead>
+  <tbody>
+    <tr><td>Email</td><td><span class="tag">Wajib</span></td><td>Alamat email pengguna</td></tr>
+    <tr><td>Nama Pengguna</td><td><span class="tag">Wajib</span></td><td>Nama lengkap pengguna</td></tr>
+    <tr><td>Jabatan Pengguna</td><td>Opsional</td><td>Jabatan pengguna di perusahaan</td></tr>
+    <tr><td>No WhatsApp</td><td><span class="tag">Wajib</span></td><td>Nomor WhatsApp aktif</td></tr>
+    <tr><td>Nama Perusahaan</td><td><span class="tag">Wajib</span></td><td>Nama perusahaan/institusi</td></tr>
+    <tr><td>Nama Lulusan</td><td><span class="tag">Wajib</span></td><td>Nama lulusan UMSIDA</td></tr>
+    <tr><td>Jabatan Lulusan</td><td><span class="tag">Wajib</span></td><td>Jabatan lulusan di perusahaan</td></tr>
+    <tr><td>Fakultas</td><td><span class="tag">Wajib</span></td><td>Pilih dari dropdown</td></tr>
+    <tr><td>Program Studi</td><td><span class="tag">Wajib</span></td><td>Sesuaikan dengan fakultas</td></tr>
+    <tr><td>Tingkatan Perusahaan</td><td><span class="tag">Wajib</span></td><td>Lokal / Nasional / Multinasional/Internasional</td></tr>
+    <tr><td>Bidang Perusahaan</td><td><span class="tag">Wajib</span></td><td>Bidang usaha</td></tr>
+    <tr><td>Kepuasan Umum</td><td><span class="tag">Wajib</span></td><td>Sangat Puas / Puas / Cukup / Kurang Puas / Sangat Tidak Puas</td></tr>
+    <tr><td>Harapan Pengguna</td><td><span class="tag">Wajib</span></td><td>Teks bebas</td></tr>
+    <tr><td>7 Kolom Kompetensi</td><td><span class="tag">Wajib</span></td><td>Sangat baik / Baik / Cukup / Kurang</td></tr>
+    <tr><td>Tahun</td><td>Opsional</td><td>Tahun pengambilan data. Jika kosong, otomatis diisi tahun berjalan</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note-box">
+  <strong>Catatan:</strong> Hapus baris contoh (baris pertama data) sebelum mengupload. Pastikan setiap baris data terisi lengkap &mdash; baris dengan field wajib yang kosong akan dilewati saat import.
+</div>
+
+<h3>4.3 Upload File</h3>
+<div class="step-card">
+  <span class="step-num">1</span><span class="step-title">Klik ikon Import di header</span>
+  <div class="step-body">Dialog pemilihan file akan terbuka. Pilih file Excel (.xlsx atau .xls) yang sudah Anda isi.</div>
+</div>
+
+<div class="step-card">
+  <span class="step-num">2</span><span class="step-title">Tunggu proses import</span>
+  <div class="step-body">Ikon akan berputar selama proses berlangsung. Jangan menutup halaman.</div>
+</div>
+
+<div class="step-card">
+  <span class="step-num">3</span><span class="step-title">Periksa hasil</span>
+  <div class="step-body">Notifikasi akan muncul: <em>"Berhasil import X data. Y baris dilewati."</em> Tabel data akan diperbarui otomatis.</div>
+</div>
+
+<!-- ==================== BAB 5 ==================== -->
+<h2>5. Export Data ke Excel</h2>
+
+<p>Fitur export mengunduh seluruh data respons ke file Excel (.xlsx) untuk keperluan pengolahan lebih lanjut atau arsip.</p>
+
+<div class="step-card">
+  <span class="step-num">1</span><span class="step-title">Klik tombol "Export Excel" di header</span>
+  <div class="step-body">File <code>tracer-pengguna-YYYY-MM-DD.xlsx</code> akan langsung terunduh.</div>
+</div>
+
+<p>File Excel yang dihasilkan berisi:</p>
+<ul>
+  <li>Seluruh data respons dengan header berwarna navy blue</li>
+  <li>22 kolom: No, Tanggal, Email, Nama Pengguna, Jabatan, No WhatsApp, Perusahaan, Lulusan, Jabatan Lulusan, Fakultas, Prodi, Tingkatan, Bidang, Kepuasan, Harapan, 7 Kompetensi, Tahun</li>
+  <li>Border pada semua sel</li>
+</ul>
+
+<!-- ==================== BAB 6 ==================== -->
+<h2>6. Laporan Per Prodi &amp; Universitas</h2>
+
+<h3>6.1 Mengakses Halaman Laporan</h3>
+<p>Klik tombol <strong>"Laporan Prodi"</strong> di header Dashboard. Halaman laporan menampilkan data agregat dalam bentuk card yang dapat di-expand.</p>
+
+<h3>6.2 Filter Data</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Filter</th><th>Posisi</th><th>Fungsi</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Filter Tahun</strong></td><td>Kanan atas</td><td>Memfilter data berdasarkan tahun pengambilan. Mengubah URL dan me-reload data dari server.</td></tr>
+    <tr><td><strong>Filter Fakultas</strong></td><td>Kanan atas</td><td>Menampilkan/menyembunyikan card prodi berdasarkan fakultas. Bersifat client-side (tanpa reload).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>6.3 Card Laporan Universitas</h3>
+<p>Card pertama (latar gelap) menampilkan laporan keseluruhan universitas:</p>
+<ul>
+  <li><strong>Info ringkasan</strong>: jumlah fakultas, jumlah program studi, total responden</li>
+  <li><strong>Tabel Kepuasan Umum</strong>: distribusi frekuensi dan persentase</li>
+  <li><strong>Tabel Tingkatan Perusahaan</strong>: Lokal, Nasional, Multinasional</li>
+  <li><strong>Tabel Bidang Perusahaan</strong>: distribusi bidang usaha</li>
+  <li><strong>Tabel Kompetensi</strong>: rata-rata dan distribusi per skala (Sangat baik / Baik / Cukup / Kurang) dengan jumlah dan persentase</li>
+  <li><strong>Daftar Perusahaan/Instansi</strong>: tabel nama pengguna, jabatan, perusahaan, jabatan lulusan</li>
+  <li><strong>Ringkasan Per Prodi</strong>: tabel total dan rata-rata kompetensi per prodi</li>
+  <li><strong>Tombol Download Word</strong>: mengunduh laporan universitas dalam format .docx</li>
+</ul>
+
+<h3>6.4 Card Laporan Per Prodi</h3>
+<p>Setiap program studi memiliki card terpisah yang berisi:</p>
+<ul>
+  <li>Semua tabel yang sama dengan card universitas (khusus data prodi tersebut)</li>
+  <li><strong>Harapan Pengguna</strong>: daftar harapan/masukan dari setiap responden</li>
+  <li><strong>Tombol Download Word</strong>: mengunduh laporan prodi dalam format .docx</li>
+</ul>
+
+<p>Klik pada header card untuk meng-expand atau menciutkan isinya.</p>
+
+<!-- ==================== BAB 7 ==================== -->
+<h2>7. Export Laporan ke Word</h2>
+
+<p>Laporan dapat diunduh dalam format Word (.docx) untuk keperluan cetak, arsip, atau pelaporan formal.</p>
+
+<h3>7.1 Laporan Per Prodi</h3>
+<div class="step-card">
+  <span class="step-num">1</span><span class="step-title">Buka halaman Laporan Prodi</span>
+  <div class="step-body">Klik "Laporan Prodi" di header Dashboard.</div>
+</div>
+<div class="step-card">
+  <span class="step-num">2</span><span class="step-title">Expand card prodi yang diinginkan</span>
+  <div class="step-body">Klik pada header card program studi.</div>
+</div>
+<div class="step-card">
+  <span class="step-num">3</span><span class="step-title">Klik "Download Word"</span>
+  <div class="step-body">File <code>Laporan-[Fakultas]-[Prodi].docx</code> akan terunduh.</div>
+</div>
+
+<h3>7.2 Laporan Universitas</h3>
+<div class="step-card">
+  <span class="step-num">1</span><span class="step-title">Expand card "Laporan Keseluruhan Universitas"</span>
+  <div class="step-body">Card pertama (latar gelap) di bagian atas halaman laporan.</div>
+</div>
+<div class="step-card">
+  <span class="step-num">2</span><span class="step-title">Klik "Download Word"</span>
+  <div class="step-body">File <code>Laporan-Universitas-UMSIDA.docx</code> akan terunduh.</div>
+</div>
+
+<h3>7.3 Isi Dokumen Word</h3>
+<p>Dokumen Word yang dihasilkan berisi:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Bagian</th><th>Isi</th></tr></thead>
+  <tbody>
+    <tr><td>Header</td><td>Judul laporan dan identitas prodi/universitas</td></tr>
+    <tr><td>Tabel Kepuasan</td><td>Distribusi frekuensi dan persentase kepuasan umum</td></tr>
+    <tr><td>Tabel Tingkatan</td><td>Distribusi tingkatan perusahaan</td></tr>
+    <tr><td>Tabel Bidang</td><td>Distribusi bidang perusahaan</td></tr>
+    <tr><td>Tabel Kompetensi</td><td>7 kompetensi dengan rata-rata dan distribusi (Sangat baik/Baik/Cukup/Kurang) &mdash; jumlah dan persentase</td></tr>
+    <tr><td>Daftar Perusahaan</td><td>Tabel nama pengguna, jabatan, perusahaan/instansi, jabatan lulusan</td></tr>
+    <tr><td>Harapan Pengguna</td><td>Daftar harapan dan masukan dari setiap pengguna</td></tr>
+    <tr><td>Footer</td><td>Informasi sumber data</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ==================== BAB 8 ==================== -->
+<h2>8. Pengelolaan Data Per Tahun</h2>
+
+<p>Sistem mendukung pengelompokan data berdasarkan tahun pengambilan. Fitur ini berguna untuk membandingkan data antar tahun dan menghasilkan laporan per periode.</p>
+
+<h3>8.1 Bagaimana Tahun Ditentukan</h3>
+<ul>
+  <li><strong>Pengisian kuesioner online</strong>: tahun otomatis diisi tahun berjalan</li>
+  <li><strong>Import dari Excel</strong>: jika kolom "Tahun" diisi, nilai tersebut yang digunakan. Jika kosong, otomatis diisi tahun berjalan</li>
+</ul>
+
+<h3>8.2 Filter Tahun di Dashboard</h3>
+<p>Pilih tahun dari dropdown di atas tabel data. Pilih <strong>"Semua Tahun"</strong> untuk melihat seluruh data. Jumlah data yang ditampilkan akan berubah sesuai filter.</p>
+
+<h3>8.3 Filter Tahun di Laporan</h3>
+<p>Pilih tahun dari dropdown di halaman laporan. Filter ini bersifat server-side &mdash; halaman akan dimuat ulang dengan data yang sudah difilter. Semua card prodi dan card universitas akan menampilkan data khusus tahun yang dipilih.</p>
+
+<!-- ==================== BAB 9 ==================== -->
+<h2>9. Tips &amp; Praktik Terbaik</h2>
+
+<div class="step-card">
+  <div class="icon-desc">
+    <div class="icon-box">1</div>
+    <div class="icon-text">
+      <strong>Backup Rutin</strong>
+      <span>Lakukan Export Excel secara berkala untuk menyimpan backup data. Simpan file di tempat yang aman.</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">2</div>
+    <div class="icon-text">
+      <strong>Export Sebelum Hapus</strong>
+      <span>Selalu export data terlebih dahulu sebelum menghapus data apa pun, karena penghapusan bersifat permanen.</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">3</div>
+    <div class="icon-text">
+      <strong>Gunakan Template untuk Import</strong>
+      <span>Selalu gunakan template yang disediakan untuk import data. Jangan mengubah urutan kolom atau nama header.</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">4</div>
+    <div class="icon-text">
+      <strong>Isi Kolom Tahun saat Import</strong>
+      <span>Untuk data historis, pastikan kolom Tahun diisi dengan tahun pengambilan data yang benar agar pengelompokan dan laporan akurat.</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">5</div>
+    <div class="icon-text">
+      <strong>Laporan per Tahun</strong>
+      <span>Gunakan filter tahun di halaman laporan untuk menghasilkan laporan per periode. Download Word per tahun untuk arsip pelaporan.</span>
+    </div>
+  </div>
+  <div class="icon-desc">
+    <div class="icon-box">6</div>
+    <div class="icon-text">
+      <strong>Jaga Keamanan Password</strong>
+      <span>Jangan bagikan password admin ke pihak yang tidak berkepentingan. Logout setelah selesai menggunakan dashboard.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BAB 10 ==================== -->
+<h2>10. Kontak Dukungan</h2>
+
+<p>Jika mengalami kendala teknis dengan sistem admin, silakan hubungi:</p>
+
+<div class="step-card" style="text-align:center;">
+  <p style="margin:0 0 4px;"><strong>Pusat Informasi dan Pengembangan Karir (PINPKU)</strong></p>
+  <p style="margin:0 0 4px;">Universitas Muhammadiyah Sidoarjo</p>
+  <p style="margin:0; color:var(--c-accent); font-weight:600;">pinpku@umsida.ac.id</p>
+</div>

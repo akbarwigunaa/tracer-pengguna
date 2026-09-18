@@ -1,0 +1,529 @@
+<title>Modul Panduan Pengguna &mdash; Tracer Pengguna Lulusan UMSIDA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500&display=swap">
+<style>
+  :root {
+    --c-primary: #0f2340;
+    --c-accent: #1d4ed8;
+    --c-accent-light: #eff6ff;
+    --c-surface: #f7f8fa;
+    --c-surface-alt: #eef1f5;
+    --c-card: #ffffff;
+    --c-text: #1e2a3a;
+    --c-muted: #6b7a8d;
+    --c-border: #d4dae3;
+    --c-code-bg: #f0f2f5;
+    --c-table-header: #0f2340;
+    --c-table-header-text: #ffffff;
+    --c-table-stripe: #f5f7fa;
+    --c-tag-bg: #eff6ff;
+    --c-tag-text: #1d4ed8;
+    --c-success-bg: #f0fdf4;
+    --c-success-border: #22c55e;
+    --c-warning-bg: #fff8e6;
+    --c-warning-border: #e6c200;
+    --c-info-bg: #eff6ff;
+    --c-info-border: #3b82f6;
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-code: 'Source Code Pro', 'Menlo', 'Consolas', monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --c-primary: #6ba3d6;
+      --c-accent: #60a5fa;
+      --c-accent-light: #172040;
+      --c-surface: #111820;
+      --c-surface-alt: #161e28;
+      --c-card: #1a2332;
+      --c-text: #d8dfe8;
+      --c-muted: #8899aa;
+      --c-border: #2a3a4c;
+      --c-code-bg: #141c26;
+      --c-table-header: #1e3048;
+      --c-table-header-text: #d8dfe8;
+      --c-table-stripe: #141c26;
+      --c-tag-bg: #172040;
+      --c-tag-text: #60a5fa;
+      --c-success-bg: #0a2010;
+      --c-success-border: #16a34a;
+      --c-warning-bg: #2a2510;
+      --c-warning-border: #8a7500;
+      --c-info-bg: #101830;
+      --c-info-border: #2563eb;
+    }
+  }
+  :root[data-theme="dark"] {
+    --c-primary: #6ba3d6;
+    --c-accent: #60a5fa;
+    --c-accent-light: #172040;
+    --c-surface: #111820;
+    --c-surface-alt: #161e28;
+    --c-card: #1a2332;
+    --c-text: #d8dfe8;
+    --c-muted: #8899aa;
+    --c-border: #2a3a4c;
+    --c-code-bg: #141c26;
+    --c-table-header: #1e3048;
+    --c-table-header-text: #d8dfe8;
+    --c-table-stripe: #141c26;
+    --c-tag-bg: #172040;
+    --c-tag-text: #60a5fa;
+    --c-success-bg: #0a2010;
+    --c-success-border: #16a34a;
+    --c-warning-bg: #2a2510;
+    --c-warning-border: #8a7500;
+    --c-info-bg: #101830;
+    --c-info-border: #2563eb;
+  }
+
+  body {
+    background: var(--c-surface);
+    color: var(--c-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--c-primary);
+    text-wrap: balance;
+    line-height: 1.25;
+  }
+  h1 { font-size: 2.1rem; margin: 0 0 0.3em; }
+  h2 { font-size: 1.5rem; margin: 2.4em 0 0.6em; padding-bottom: 0.35em; border-bottom: 2px solid var(--c-border); }
+  h3 { font-size: 1.15rem; margin: 1.8em 0 0.5em; color: var(--c-accent); font-family: var(--font-body); font-weight: 700; }
+
+  p { margin: 0 0 1em; }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--c-muted);
+    margin: 0 0 0.3em;
+    font-weight: 300;
+  }
+  .meta-line {
+    font-size: 0.85rem;
+    color: var(--c-muted);
+    margin-bottom: 2.5em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0 1.5em;
+    font-size: 0.92rem;
+  }
+  .table-wrap { overflow-x: auto; }
+  thead th {
+    background: var(--c-table-header);
+    color: var(--c-table-header-text);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  thead th:first-child { border-radius: 6px 0 0 0; }
+  thead th:last-child { border-radius: 0 6px 0 0; }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--c-border);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) { background: var(--c-table-stripe); }
+
+  code {
+    font-family: var(--font-code);
+    font-size: 0.88em;
+    background: var(--c-code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--c-tag-bg);
+    color: var(--c-tag-text);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .note-box {
+    background: var(--c-warning-bg);
+    border-left: 4px solid var(--c-warning-border);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 1.5em 0;
+    font-size: 0.92rem;
+  }
+  .info-box {
+    background: var(--c-info-bg);
+    border-left: 4px solid var(--c-info-border);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 1.5em 0;
+    font-size: 0.92rem;
+  }
+  .success-box {
+    background: var(--c-success-bg);
+    border-left: 4px solid var(--c-success-border);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 1.5em 0;
+    font-size: 0.92rem;
+  }
+
+  .step-card {
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 1em 0;
+  }
+  .step-card .step-num {
+    display: inline-block;
+    background: var(--c-accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .step-card .step-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--c-primary);
+  }
+  .step-card .step-body {
+    margin-top: 12px;
+    color: var(--c-text);
+  }
+
+  ul, ol { margin: 0.5em 0 1.2em; padding-left: 1.5em; }
+  li { margin-bottom: 0.3em; }
+
+  .flow-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 1.5em 0;
+  }
+  .flow-step {
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--c-primary);
+    text-align: center;
+  }
+  .flow-step.active {
+    background: var(--c-accent-light);
+    border-color: var(--c-accent);
+    color: var(--c-accent);
+  }
+  .flow-arrow {
+    color: var(--c-muted);
+    font-size: 1.2rem;
+  }
+
+  @media print {
+    body { max-width: 100%; padding: 20px; font-size: 11pt; }
+    h2 { page-break-after: avoid; }
+    .step-card, table { page-break-inside: avoid; }
+  }
+</style>
+
+<h1>Modul Panduan Pengguna</h1>
+<p class="subtitle">Kuesioner Tracer Pengguna Lulusan &mdash; Universitas Muhammadiyah Sidoarjo</p>
+<p class="meta-line">Pusat Informasi dan Pengembangan Karir (PINPKU) UMSIDA &middot; September 2026</p>
+
+<!-- ==================== BAB 1 ==================== -->
+<h2>1. Tentang Kuesioner Ini</h2>
+
+<p>Kuesioner Tracer Pengguna Lulusan merupakan instrumen yang digunakan oleh Universitas Muhammadiyah Sidoarjo (UMSIDA) untuk mengumpulkan umpan balik dari <strong>perusahaan, instansi, atau lembaga</strong> yang mempekerjakan alumni UMSIDA.</p>
+
+<p>Tujuan kuesioner ini adalah:</p>
+<ul>
+  <li>Mengevaluasi tingkat kepuasan pengguna terhadap kompetensi lulusan UMSIDA</li>
+  <li>Mengidentifikasi kekuatan dan area peningkatan kualitas lulusan</li>
+  <li>Menampung harapan dan masukan dari dunia kerja untuk perbaikan kurikulum</li>
+</ul>
+
+<div class="info-box">
+  <strong>Siapa yang mengisi?</strong> Kuesioner ini ditujukan kepada atasan, supervisor, atau perwakilan perusahaan/instansi yang membawahi atau mengenal kinerja lulusan UMSIDA di tempat kerja.
+</div>
+
+<!-- ==================== BAB 2 ==================== -->
+<h2>2. Mengakses Kuesioner</h2>
+
+<p>Kuesioner dapat diakses melalui browser (Chrome, Safari, Firefox, dll.) di perangkat komputer maupun handphone pada alamat:</p>
+
+<div class="step-card" style="text-align:center;">
+  <span class="step-title" style="font-size:1.1rem;">https://tracer-pengguna-production.up.railway.app</span>
+</div>
+
+<p>Saat halaman terbuka, Anda akan melihat:</p>
+<ul>
+  <li>Header dengan logo UMSIDA dan judul "Kuesioner Tracer Pengguna Lulusan"</li>
+  <li>Penjelasan singkat tentang tujuan kuesioner</li>
+  <li>Formulir yang terdiri dari <strong>4 bagian</strong> yang diisi secara berurutan</li>
+</ul>
+
+<!-- ==================== BAB 3 ==================== -->
+<h2>3. Alur Pengisian</h2>
+
+<p>Pengisian kuesioner terdiri dari 4 bagian berurutan. Anda harus menyelesaikan setiap bagian sebelum melanjutkan ke bagian berikutnya.</p>
+
+<div class="flow-steps">
+  <div class="flow-step active">Bagian 1<br><small>Identitas Pengguna</small></div>
+  <span class="flow-arrow">&rarr;</span>
+  <div class="flow-step">Bagian 2<br><small>Identitas Lulusan</small></div>
+  <span class="flow-arrow">&rarr;</span>
+  <div class="flow-step">Bagian 3<br><small>Info Perusahaan</small></div>
+  <span class="flow-arrow">&rarr;</span>
+  <div class="flow-step">Bagian 4<br><small>Penilaian Kompetensi</small></div>
+</div>
+
+<p>Indikator progress di bagian atas halaman menunjukkan posisi Anda saat ini. Tombol <strong>"Berikutnya"</strong> untuk maju dan <strong>"Kembali"</strong> untuk mundur ke bagian sebelumnya.</p>
+
+<!-- ==================== BAB 4 ==================== -->
+<h2>4. Bagian 1 &mdash; Identitas Pengguna</h2>
+
+<p>Bagian ini berisi data diri Anda sebagai pengguna (atasan/supervisor) lulusan UMSIDA.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Field</th><th>Wajib</th><th>Keterangan</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Email</strong></td><td><span class="tag">Wajib</span></td><td>Alamat email aktif Anda. Harus berformat valid (contoh: <code>nama@perusahaan.com</code>)</td></tr>
+    <tr><td><strong>Nama Pengguna</strong></td><td><span class="tag">Wajib</span></td><td>Nama lengkap Anda</td></tr>
+    <tr><td><strong>Jabatan</strong></td><td>Opsional</td><td>Jabatan Anda di perusahaan/instansi</td></tr>
+    <tr><td><strong>No WhatsApp</strong></td><td><span class="tag">Wajib</span></td><td>Nomor WhatsApp aktif. Harus berupa nomor Indonesia (contoh: <code>08123456789</code> atau <code>+628123456789</code>)</td></tr>
+    <tr><td><strong>Nama Perusahaan/Institusi</strong></td><td><span class="tag">Wajib</span></td><td>Nama perusahaan, instansi, atau lembaga tempat Anda bekerja</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note-box">
+  <strong>Perhatian:</strong> Pastikan email dan nomor WhatsApp yang Anda masukkan benar. Sistem akan menolak format yang tidak valid:
+  <ul style="margin-bottom:0;">
+    <li>Email harus mengandung <code>@</code> dan domain (contoh: nama@gmail.com)</li>
+    <li>No WhatsApp harus diawali <code>08</code>, <code>+62</code>, atau <code>62</code> diikuti 8&ndash;13 digit angka</li>
+  </ul>
+</div>
+
+<p>Setelah semua field wajib terisi dengan benar, klik tombol <strong>"Berikutnya"</strong> untuk lanjut ke Bagian 2.</p>
+
+<!-- ==================== BAB 5 ==================== -->
+<h2>5. Bagian 2 &mdash; Identitas Lulusan</h2>
+
+<p>Bagian ini berisi informasi tentang lulusan UMSIDA yang bekerja di perusahaan/instansi Anda.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Field</th><th>Wajib</th><th>Keterangan</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Nama Lulusan</strong></td><td><span class="tag">Wajib</span></td><td>Nama lengkap lulusan UMSIDA yang bekerja di tempat Anda</td></tr>
+    <tr><td><strong>Jabatan</strong></td><td><span class="tag">Wajib</span></td><td>Jabatan atau posisi lulusan tersebut di perusahaan Anda</td></tr>
+    <tr><td><strong>Fakultas</strong></td><td><span class="tag">Wajib</span></td><td>Pilih fakultas asal lulusan dari dropdown. Tersedia 6 fakultas</td></tr>
+    <tr><td><strong>Program Studi</strong></td><td><span class="tag">Wajib</span></td><td>Pilih program studi dari dropdown. Pilihan otomatis menyesuaikan fakultas yang dipilih</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Daftar Fakultas</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>No</th><th>Fakultas</th><th>Contoh Program Studi</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>FPSI &mdash; Fakultas Pendidikan dan Studi Islam</td><td>Pendidikan Agama Islam, PGSD, PG PAUD, dll.</td></tr>
+    <tr><td>2</td><td>FBHIS &mdash; Fakultas Bisnis Hukum dan Ilmu Sosial</td><td>Akuntansi, Manajemen, Hukum, Ilmu Komunikasi, dll.</td></tr>
+    <tr><td>3</td><td>FKKG &mdash; Fakultas Kedokteran dan Kedokteran Gigi</td><td>Kedokteran, Kedokteran Gigi, Profesi Dokter</td></tr>
+    <tr><td>4</td><td>FST &mdash; Fakultas Sains dan Teknologi</td><td>Informatika, Teknik Mesin, Teknik Sipil, dll.</td></tr>
+    <tr><td>5</td><td>FIKP &mdash; Fakultas Ilmu Kesehatan dan Psikologi</td><td>Kebidanan, Fisioterapi, Psikologi, dll.</td></tr>
+    <tr><td>6</td><td>Pascasarjana</td><td>S2 Manajemen, S2 Pendidikan Dasar, dll.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="info-box">
+  <strong>Tips:</strong> Jika Anda tidak yakin fakultas atau program studi lulusan, Anda dapat menanyakannya langsung kepada alumni tersebut sebelum mengisi kuesioner.
+</div>
+
+<!-- ==================== BAB 6 ==================== -->
+<h2>6. Bagian 3 &mdash; Informasi Perusahaan &amp; Kepuasan</h2>
+
+<p>Bagian ini berisi informasi tentang perusahaan/instansi Anda serta penilaian kepuasan secara umum.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Field</th><th>Wajib</th><th>Keterangan</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Tingkatan Perusahaan/Instansi</strong></td>
+      <td><span class="tag">Wajib</span></td>
+      <td>Pilih salah satu:
+        <ul style="margin:4px 0 0; padding-left:1.2em;">
+          <li><strong>Lokal</strong> &mdash; beroperasi di tingkat daerah/kota/kabupaten</li>
+          <li><strong>Nasional</strong> &mdash; beroperasi di tingkat nasional</li>
+          <li><strong>Multinasional/Internasional</strong> &mdash; beroperasi lintas negara</li>
+        </ul>
+      </td>
+    </tr>
+    <tr><td><strong>Bidang Instansi/Perusahaan</strong></td><td><span class="tag">Wajib</span></td><td>Bidang usaha perusahaan Anda (contoh: Pendidikan, Kesehatan, Teknologi, Manufaktur, dll.)</td></tr>
+    <tr>
+      <td><strong>Kepuasan Umum</strong></td>
+      <td><span class="tag">Wajib</span></td>
+      <td>Tingkat kepuasan Anda secara umum terhadap lulusan UMSIDA:
+        <ul style="margin:4px 0 0; padding-left:1.2em;">
+          <li>Sangat Puas</li>
+          <li>Puas</li>
+          <li>Cukup</li>
+          <li>Kurang Puas</li>
+          <li>Sangat Tidak Puas</li>
+        </ul>
+      </td>
+    </tr>
+    <tr><td><strong>Harapan Pengguna</strong></td><td><span class="tag">Wajib</span></td><td>Masukan, saran, atau harapan Anda untuk meningkatkan kualitas lulusan UMSIDA ke depannya. Tuliskan secara bebas.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ==================== BAB 7 ==================== -->
+<h2>7. Bagian 4 &mdash; Penilaian Kompetensi Alumni</h2>
+
+<p>Bagian terakhir ini meminta Anda menilai kemampuan lulusan UMSIDA dalam 7 aspek kompetensi. Setiap kompetensi dinilai dengan skala:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Skala</th><th>Nilai</th><th>Keterangan</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Sangat baik</strong></td><td>4</td><td>Lulusan menunjukkan kemampuan yang sangat memuaskan</td></tr>
+    <tr><td><strong>Baik</strong></td><td>3</td><td>Lulusan menunjukkan kemampuan yang memuaskan</td></tr>
+    <tr><td><strong>Cukup</strong></td><td>2</td><td>Lulusan menunjukkan kemampuan yang cukup memadai</td></tr>
+    <tr><td><strong>Kurang</strong></td><td>1</td><td>Lulusan perlu meningkatkan kemampuan di aspek ini</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>7 Aspek Kompetensi yang Dinilai</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>No</th><th>Kompetensi</th><th>Penjelasan</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>Integritas (etika dan moral)</strong></td><td>Kejujuran, tanggung jawab, dan etika kerja lulusan</td></tr>
+    <tr><td>2</td><td><strong>Keahlian berdasarkan bidang ilmu</strong></td><td>Penguasaan pengetahuan dan keterampilan sesuai bidang studi</td></tr>
+    <tr><td>3</td><td><strong>Kemampuan Bahasa Asing</strong></td><td>Kemampuan berkomunikasi dalam bahasa asing (terutama Bahasa Inggris)</td></tr>
+    <tr><td>4</td><td><strong>Penggunaan Teknologi Informasi</strong></td><td>Kemampuan mengoperasikan perangkat dan aplikasi teknologi</td></tr>
+    <tr><td>5</td><td><strong>Komunikasi</strong></td><td>Kemampuan menyampaikan ide secara lisan maupun tulisan</td></tr>
+    <tr><td>6</td><td><strong>Kerjasama Tim</strong></td><td>Kemampuan bekerja sama dan berkolaborasi dalam tim</td></tr>
+    <tr><td>7</td><td><strong>Pengembangan Diri</strong></td><td>Motivasi dan kemampuan untuk terus belajar dan berkembang</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>Cara mengisi:</strong></p>
+<ul>
+  <li>Di <strong>komputer</strong>: Anda akan melihat tabel dengan baris kompetensi dan kolom skala. Klik radio button pada kolom yang sesuai.</li>
+  <li>Di <strong>handphone</strong>: Setiap kompetensi ditampilkan sebagai kartu terpisah. Pilih salah satu skala pada setiap kartu.</li>
+</ul>
+
+<div class="note-box">
+  <strong>Penting:</strong> Seluruh 7 kompetensi <strong>wajib dinilai</strong>. Jika ada yang terlewat, sistem akan menampilkan pesan peringatan dan kompetensi yang belum diisi.
+</div>
+
+<!-- ==================== BAB 8 ==================== -->
+<h2>8. Mengirim Kuesioner</h2>
+
+<p>Setelah seluruh bagian terisi lengkap:</p>
+
+<div class="step-card">
+  <span class="step-num">1</span><span class="step-title">Periksa kembali jawaban Anda</span>
+  <div class="step-body">Gunakan tombol "Kembali" untuk memeriksa jawaban di bagian sebelumnya jika diperlukan.</div>
+</div>
+
+<div class="step-card">
+  <span class="step-num">2</span><span class="step-title">Klik tombol "Kirim"</span>
+  <div class="step-body">Tombol "Kirim" muncul di Bagian 4 (bagian terakhir). Tombol akan berubah menjadi "Mengirim..." selama proses pengiriman.</div>
+</div>
+
+<div class="step-card">
+  <span class="step-num">3</span><span class="step-title">Halaman Terima Kasih</span>
+  <div class="step-body">Jika berhasil, Anda akan diarahkan ke halaman ucapan terima kasih. Ini menandakan respons Anda telah tersimpan.</div>
+</div>
+
+<div class="success-box">
+  <strong>Respons berhasil terkirim!</strong> Setelah melihat halaman "Terima Kasih!", data Anda sudah tersimpan di sistem. Anda dapat menutup halaman browser.
+</div>
+
+<!-- ==================== BAB 9 ==================== -->
+<h2>9. Troubleshooting</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Masalah</th><th>Penyebab</th><th>Solusi</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Muncul pesan "Mohon lengkapi field berikut"</td>
+      <td>Ada field wajib yang belum diisi</td>
+      <td>Isi semua field yang ditampilkan dalam daftar error (kotak merah di atas form)</td>
+    </tr>
+    <tr>
+      <td>Email ditolak</td>
+      <td>Format email tidak valid</td>
+      <td>Pastikan email mengandung tanda <code>@</code> dan domain (contoh: <code>nama@gmail.com</code>)</td>
+    </tr>
+    <tr>
+      <td>No WhatsApp ditolak</td>
+      <td>Format nomor tidak valid</td>
+      <td>Gunakan format <code>08xxxxxxxxxx</code> atau <code>+628xxxxxxxxxx</code>. Jangan gunakan huruf atau karakter selain angka, spasi, dan strip</td>
+    </tr>
+    <tr>
+      <td>Program Studi tidak bisa dipilih</td>
+      <td>Fakultas belum dipilih</td>
+      <td>Pilih Fakultas terlebih dahulu, maka pilihan Program Studi akan muncul otomatis</td>
+    </tr>
+    <tr>
+      <td>Tombol "Kirim" tidak merespons</td>
+      <td>Ada kompetensi yang belum dinilai</td>
+      <td>Pastikan semua 7 kompetensi di Bagian 4 sudah dipilih skalanya</td>
+    </tr>
+    <tr>
+      <td>Halaman tidak terbuka / error</td>
+      <td>Koneksi internet bermasalah</td>
+      <td>Periksa koneksi internet Anda dan coba muat ulang halaman (refresh)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ==================== BAB 10 ==================== -->
+<h2>10. Kontak</h2>
+
+<p>Jika Bapak/Ibu mengalami kendala dalam pengisian kuesioner atau memiliki pertanyaan, silakan hubungi:</p>
+
+<div class="step-card" style="text-align:center;">
+  <p style="margin:0 0 4px;"><strong>Pusat Informasi dan Pengembangan Karir (PINPKU)</strong></p>
+  <p style="margin:0 0 4px;">Universitas Muhammadiyah Sidoarjo</p>
+  <p style="margin:0; color:var(--c-accent); font-weight:600;">pinpku@umsida.ac.id</p>
+</div>
